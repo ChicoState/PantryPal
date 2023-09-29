@@ -46,7 +46,7 @@ npm start
 yarn start
 ```
 
-#### 4.3.2 Start the Application
+### 4.3.2 Start the Application
 - Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of our React Native project (/PantryPal). Run the following command to start our _Android_ app:
 ```bash
 # using npm
