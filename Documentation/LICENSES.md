@@ -1,5 +1,5 @@
 # LICENSE REFERENCES
-Accoring to the terms of the MIT License, the following references must be included in the project:
+According to the terms of the MIT License, the following references must be included in the project:
 
 ## React-Native
 MIT License
