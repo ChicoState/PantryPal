@@ -52,4 +52,4 @@ npm run android
 # OR using Yarn
 yarn android
 ```
-- If everything is set up _correctly_, you should see our new app running in our _Android Emulator_ shortly.
+- If everything is set up _correctly_, you should see our new app running in your _Android Emulator_ shortly.
