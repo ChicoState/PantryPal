@@ -2,16 +2,18 @@
 This is intended to be a guide for ourselves to understand the how to use the libraries and their various components. It is not intended to be a user guide for the app itself.
 
 ## Table of Contents
-1. [License References](LICENSES.md)
-2. [Frameworks Used](#1-frameworks-used)
-3. [Libraries Used](#2-libraries-used)
-4. [How to Run](#3-how-to-run)
-    1. [Prerequisites](#31-prerequisites)
-    2. [Install Dependencies](#32-install-dependencies)
-    3. [Run the Application](#33-run-the-application)
-        1. [Start the Metro Server](#331-start-the-metro-server)
-        2. [Start the Application](#332-start-the-application)
+1. [License References](#1-license-references)
+2. [Frameworks Used](#2-frameworks-used)
+3. [Libraries Used](#3-libraries-used)
+4. [How to Run](#4-how-to-run)
+    1. [Prerequisites](#41-prerequisites)
+    2. [Install Dependencies](#42-install-dependencies)
+    3. [Run the Application](#43-run-the-application)
+        1. [Start the Metro Server](#431-start-the-metro-server)
+        2. [Start the Application](#432-start-the-application)
 
+## 1. License References
+According to the terms of the MIT License, we must include the following references in the project [LICENSES.md](LICENSES.md):
 
 ## 2. Frameworks Used
 - [React-Native](https://reactnative.dev/)
