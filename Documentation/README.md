@@ -7,6 +7,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
 3. [Libraries Used](#3-libraries-used)
     1. [React-Native-Storage](#31-react-native-storage)
         1. [Installation](#311-installation)
+        2. [Fixing Vulnerabilities](#312-fixing-vulnerabilities)
 4. [How to Run](#4-how-to-run)
     1. [Prerequisites](#41-prerequisites)
     2. [Install Dependencies](#42-install-dependencies)
@@ -36,6 +37,23 @@ npm install @react-native-async-storage/async-storage
 # OR using Yarn
 yarn add react-native-storage
 yarn add @react-native-async-storage/async-storage
+```
+
+#### 3.1.2. Fixing Vulnerabilities
+You may encounter the following error when you run the commands above:
+```bash
+4 vulnerabilities (1 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+```
+
+To fix this, run the following command:
+```bash
+npm audit fix --force
 ```
 
 ## 4. How to Run
