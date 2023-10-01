@@ -28,6 +28,7 @@ According to the terms of the MIT License, we must include the following referen
 - [React-Native-Storage](https://github.com/sunnylqm/react-native-storage)
 
 #### 3.1.1. Installation
+In the project directory, you can run:
 ```bash
 # using npm
 npm install react-native-storage
