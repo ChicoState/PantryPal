@@ -54,6 +54,7 @@ export const savePantry = async (
   location: String,
   bestBy: Date,
   expiration: Date,
+  onList: Boolean,
   expires = null,
 ) => {
   try {
@@ -70,6 +71,8 @@ export const savePantry = async (
         bestBy: bestBy,
         // Date of expiration
         expiration: expiration,
+        // If the item is on the shopping list
+        shoppingList: onList,
       },
       expires: expires,
     });
@@ -85,7 +88,12 @@ export const loadPantry = async (key: string) => {
     const data = await storage.load({
       key: key,
     });
-    return data;
+    if (data.shoppingList == false) {
+      return data;
+    } else {
+      // Return null if there is no data
+      return null;
+    }
   } catch (error) {
     console.log(error);
     // Return null if there is no data
