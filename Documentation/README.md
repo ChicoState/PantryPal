@@ -15,7 +15,8 @@ This is intended to be a guide for ourselves to understand the how to use the li
         2. [Start the Application](#432-start-the-application)
 
 ## 1. License References
-According to the terms of the MIT License, we must include the following references in the project [LICENSES.md](LICENSES.md):
+According to the terms of the MIT License, we must include the following references in the project:
+- [LICENSES.md](LICENSES.md)
 
 ## 2. Frameworks Used
 - [React-Native](https://reactnative.dev/)
