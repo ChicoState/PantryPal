@@ -5,6 +5,8 @@ This is intended to be a guide for ourselves to understand the how to use the li
 1. [License References](#1-license-references)
 2. [Frameworks Used](#2-frameworks-used)
 3. [Libraries Used](#3-libraries-used)
+    1. [React-Native-Storage](#31-react-native-storage)
+        1. [Installation](#311-installation)
 4. [How to Run](#4-how-to-run)
     1. [Prerequisites](#41-prerequisites)
     2. [Install Dependencies](#42-install-dependencies)
@@ -20,7 +22,15 @@ According to the terms of the MIT License, we must include the following referen
 - [NodeJS](https://nodejs.org/en/)
 
 ## 3. Libraries Used
-- Use this as a place to list all the libraries we use and a link to their documentation along with anything important we should know.
+
+### 3.1. React-Native-Storage
+- [React-Native-Storage](https://github.com/sunnylqm/react-native-storage)
+
+#### 3.1.1. Installation
+```bash
+npm install react-native-storage
+npm install @react-native-async-storage/async-storage
+```
 
 ## 4. How to Run
 
