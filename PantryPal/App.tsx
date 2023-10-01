@@ -23,6 +23,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+// Storage functions
+import {} from './Storage';
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
