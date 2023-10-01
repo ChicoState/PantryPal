@@ -8,6 +8,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
     1. [React-Native-Storage](#31-react-native-storage)
         1. [Installation](#311-installation)
         2. [Fixing Vulnerabilities](#312-fixing-vulnerabilities)
+    2. [React-Native-DateTimePicker](#32-react-native-datetimepicker)
 4. [How to Run](#4-how-to-run)
     1. [Prerequisites](#41-prerequisites)
     2. [Install Dependencies](#42-install-dependencies)
@@ -29,7 +30,7 @@ According to the terms of the MIT License, we must include the following referen
 - [React-Native-Storage](https://github.com/sunnylqm/react-native-storage)
 
 #### 3.1.1. Installation
-In the project directory, you can run:
+In the root of the project directory, you can run:
 ```bash
 # using npm
 npm install react-native-storage
@@ -54,6 +55,18 @@ To address all issues (including breaking changes), run:
 To fix this, run the following command:
 ```bash
 npm audit fix --force
+```
+
+### 3.2. React Native DateTimePicker
+- [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
+
+#### 3.2.1. Installation
+In the root of the project directory, you can run:
+```bash
+# using npm
+npm install @react-native-community/datetimepicker --save
+# OR using Yarn
+yarn add @react-native-community/datetimepicker
 ```
 
 ## 4. How to Run
