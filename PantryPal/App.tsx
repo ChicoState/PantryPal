@@ -1,8 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
+/*
+ * Pantry Pal React Native App
+ * App.tsx * Main entry point for the app.
  */
 
 import React from 'react';
@@ -24,6 +22,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+// Storage functions
+import {} from './Storage';
 
 type SectionProps = PropsWithChildren<{
   title: string;
