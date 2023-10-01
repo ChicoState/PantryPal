@@ -28,8 +28,13 @@ According to the terms of the MIT License, we must include the following referen
 
 #### 3.1.1. Installation
 ```bash
+# using npm
 npm install react-native-storage
 npm install @react-native-async-storage/async-storage
+
+# OR using Yarn
+yarn add react-native-storage
+yarn add @react-native-async-storage/async-storage
 ```
 
 ## 4. How to Run
