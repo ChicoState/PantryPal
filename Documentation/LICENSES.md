@@ -9,3 +9,6 @@ According to the terms of the MIT License, the following references must be incl
 
 ## React-Native-Storage
 (React-Native-Storage-License)[/Documentation/Licenses/React-Native-Storage-License.md]
+
+## React Native DateTimePicker
+(React-Native-DateTimePicker-License)[/Documentation/Licenses/React-Native-DateTimePicker-License.md]
