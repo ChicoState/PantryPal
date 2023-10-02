@@ -21,6 +21,7 @@ According to the terms of the MIT License, we must include the following referen
 - [LICENSES.md](LICENSES.md)
 
 ## 2. Frameworks Used
+- [React](https://react.dev/)
 - [React-Native](https://reactnative.dev/)
 - [NodeJS](https://nodejs.org/en/)
 
