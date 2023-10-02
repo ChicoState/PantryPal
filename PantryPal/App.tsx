@@ -24,7 +24,11 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 // Storage functions
-import {} from './Storage';
+import {
+  savePantry,
+  loadPantry,
+  deleteItem,
+} from './Storage';
 
 type SectionProps = PropsWithChildren<{
   title: string;
