@@ -23,14 +23,6 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-// Storage functions
-import {
-  savePantry,
-  loadPantry,
-  deleteItem,
-  
-} from './Storage';
-
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
