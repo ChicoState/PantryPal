@@ -7,6 +7,10 @@ import SecondScreen from './SecondScreen';
 
 const Stack = createStackNavigator();
 
+//App just consists of a stack navigator currently
+//To navigate to a screen create a file for it, import it, and add it below
+//To add navigation button go to home screen
+
 const App = () => {
   return (
     <NavigationContainer>

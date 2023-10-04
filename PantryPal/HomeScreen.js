@@ -1,6 +1,9 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
 
+//Main Home Screen
+//Add button and navigate to the name you made in APP.tsx
+
 const HomeScreen = ({navigation}) => {
     return (
         <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

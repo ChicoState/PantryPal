@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, TouchableOpacity } from 'react-native';
 
+//Implements the grocery list functionality
+
 const GroceryList = ({ navigation }) => {
   const [word, setWord] = useState('');
   const [wordList, setWordList] = useState([]);
