@@ -28,7 +28,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
 
 ## 2. License References
 According to the terms of the MIT License, we must include the following references in the project:
-- [LICENSES.md](LICENSES.md)
+- [LICENSES](LICENSES.md)
 
 ## 3. Frameworks Used
 - [React](https://react.dev/)
