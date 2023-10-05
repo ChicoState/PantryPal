@@ -100,7 +100,7 @@ yarn add @react-native-community/datetimepicker
 ### 5.3. Run the Application
 This is one way to run our app — you can also run it directly from within Android Studio.
 
-### 5.3.1 Start the Metro Server
+#### 5.3.1 Start the Metro Server
 - First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 - To start Metro, run the following command from the _root_ of our React Native project (/PantryPal): 
 ```bash
@@ -110,7 +110,7 @@ npm start
 yarn start
 ```
 
-### 4.3.2 Start the Application
+#### 5.3.2 Start the Application
 - Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of our React Native project (/PantryPal). Run the following command to start our _Android_ app:
 ```bash
 # using npm
