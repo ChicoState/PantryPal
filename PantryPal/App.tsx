@@ -14,8 +14,12 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName = "Pantry Pal">
-        <Stack.Screen name = "Pantry Pal" component = {HomeScreen} />
+      <Stack.Navigator initialRouteName = "Home Screen">
+        <Stack.Screen 
+          name = "Home Screen" 
+          component = {HomeScreen} 
+          options={{ headerShown: false }} // Hide header for HomeScreen
+          />
         <Stack.Screen name = "Grocery List" component = {GroceryList} />
         <Stack.Screen name = "Pantry" component = {SecondScreen} />
       </Stack.Navigator>
