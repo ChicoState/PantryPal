@@ -1,5 +1,4 @@
-// Storage functions for PantryPal
-// File: Storage.ts
+// File: PantryPal/Storage.ts
 // Description: Storage functions for PantryPal
 
 // Currently only supports local storage
