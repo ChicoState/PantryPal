@@ -2,35 +2,51 @@
 This is intended to be a guide for ourselves to understand the how to use the libraries and their various components. It is not intended to be a user guide for the app itself.
 
 ## Table of Contents
-1. [License References](#1-license-references)
-2. [Frameworks Used](#2-frameworks-used)
-3. [Libraries Used](#3-libraries-used)
-    1. [React-Native-Storage](#31-react-native-storage)
-        1. [Installation](#311-installation)
-        2. [Fixing Vulnerabilities](#312-fixing-vulnerabilities)
-    2. [React-Native-DateTimePicker](#32-react-native-datetimepicker)
-4. [How to Run](#4-how-to-run)
-    1. [Prerequisites](#41-prerequisites)
-    2. [Install Dependencies](#42-install-dependencies)
-    3. [Run the Application](#43-run-the-application)
-        1. [Start the Metro Server](#431-start-the-metro-server)
-        2. [Start the Application](#432-start-the-application)
+1. [File Information](#1-file-information)
+2. [License References](#2-license-references)
+3. [Frameworks Used](#3-frameworks-used)
+4. [Libraries Used](#4-libraries-used)
+    1. [React-Native-Storage](#41-react-native-storage)
+        1. [Installation](#411-installation)
+        2. [Fixing Vulnerabilities](#412-fixing-vulnerabilities)
+    2. [React-Native-DateTimePicker](#42-react-native-datetimepicker)
+5. [How to Run](#5-how-to-run)
+    1. [Prerequisites](#51-prerequisites)
+    2. [Install Dependencies](#52-install-dependencies)
+    3. [Run the Application](#53-run-the-application)
+        1. [Start the Metro Server](#531-start-the-metro-server)
+        2. [Start the Application](#532-start-the-application)
 
-## 1. License References
+## 1. Project File Information
+- /PantryPal - The root directory of the project.
+- /PantryPal/GroceryList.js - Contains the grocerylist functionality
+- /PantryPal/HomeScreen.js - Contains buttons to navigate to screens
+- /PantryPal/App.tsx - Contains navigation stack to navigate screens
+- /PantryPal/SecondScreen.js - Will contain the pantry functionality
+- /PantryPal/Storage.ts - Contains the local storage functionality
+- View the files for more information
+
+## 2. License References
 According to the terms of the MIT License, we must include the following references in the project:
 - [LICENSES.md](LICENSES.md)
 
-## 2. Frameworks Used
+## 3. Frameworks Used
 - [React](https://react.dev/)
 - [React-Native](https://reactnative.dev/)
 - [NodeJS](https://nodejs.org/en/)
 
-## 3. Libraries Used
+## 4. Libraries Used
+- All of the libraries used in this project are listed below. The links will take you to the GitHub page for each library.
+- After each merge to the main branch, always make sure you run the following command to update the libraries:
+```bash
+# using npm
+npm install
+```
 
-### 3.1. React-Native-Storage
+### 4.1. React-Native-Storage
 - [React-Native-Storage](https://github.com/sunnylqm/react-native-storage)
 
-#### 3.1.1. Installation
+#### 4.1.1. Installation
 In the root of the project directory, you can run:
 ```bash
 # using npm
@@ -41,7 +57,7 @@ yarn add react-native-storage
 yarn add @react-native-async-storage/async-storage
 ```
 
-#### 3.1.2. Fixing Vulnerabilities
+#### 4.1.2. Fixing Vulnerabilities
 You may encounter the following error when you run the commands above:
 ```bash
 4 vulnerabilities (1 high, 3 critical)
@@ -58,10 +74,10 @@ To fix this, run the following command:
 npm audit fix --force
 ```
 
-### 3.2. React Native DateTimePicker
+### 4.2. React Native DateTimePicker
 - [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
 
-#### 3.2.1. Installation
+#### 4.2.1. Installation
 In the root of the project directory, you can run:
 ```bash
 # using npm
@@ -70,21 +86,21 @@ npm install @react-native-community/datetimepicker --save
 yarn add @react-native-community/datetimepicker
 ```
 
-## 4. How to Run
+## 5. How to Run
 
-### 4.1. Prerequisites
+### 5.1. Prerequisites
 - [Android Studio](https://developer.android.com/studio)
 - [NodeJS](https://nodejs.org/en/)
 - [React-Native](https://reactnative.dev/)
 - Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
-### 4.2. Install Dependencies
+### 5.2. Install Dependencies
 - Run `npm install` in the root directory of the project.
 
-### 4.3. Run the Application
+### 5.3. Run the Application
 This is one way to run our app — you can also run it directly from within Android Studio.
 
-### 4.3.1 Start the Metro Server
+### 5.3.1 Start the Metro Server
 - First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 - To start Metro, run the following command from the _root_ of our React Native project (/PantryPal): 
 ```bash
