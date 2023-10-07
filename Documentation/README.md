@@ -10,6 +10,12 @@ This is intended to be a guide for ourselves to understand the how to use the li
         1. [Installation](#411-installation)
         2. [Fixing Vulnerabilities](#412-fixing-vulnerabilities)
     2. [React-Native-DateTimePicker](#42-react-native-datetimepicker)
+        1. [Installation](#421-installation)
+        2. [Fixing Vulnerabilities](#422-fixing-vulnerabilities)
+    3. [NP](#43-np)
+        1. [Installation](#431-installation)
+    4. [React-Native-Version](#44-react-native-version)
+        1. [Installation](#441-installation)
 5. [How to Run](#5-how-to-run)
     1. [Prerequisites](#51-prerequisites)
     2. [Install Dependencies](#52-install-dependencies)
@@ -84,6 +90,30 @@ In the root of the project directory, you can run:
 npm install @react-native-community/datetimepicker --save
 # OR using Yarn
 yarn add @react-native-community/datetimepicker
+```
+
+### 4.3. NP
+- [NP](https://github.com/sindresorhus/np)
+
+#### 4.3.1. Installation
+In the root of the project directory, you can run:
+```bash
+# using npm
+npm install --global np
+# OR using Yarn
+yarn global add np
+```
+
+### 4.4 React-Native-Version
+- [React-Native-Version](https://github.com/stovmascript/react-native-version)
+
+#### 4.4.1 Installation
+In the root of the project directory, you can run:
+```bash
+# using npm
+npm install --global react-native-version
+# OR using Yarn
+yarn global add react-native-version
 ```
 
 ## 5. How to Run
