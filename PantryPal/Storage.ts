@@ -8,6 +8,7 @@
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Various Error Handlers
 // Error for saving the list of items
 export class PantrySaveListError extends Error {
   constructor(message: string) {
@@ -17,7 +18,7 @@ export class PantrySaveListError extends Error {
 }
 
 // Error for loading the list of items in the pantry
-export class PantryLoadListError extends Error {
+export class PantryLoadKeysError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'PantryLoadError';
@@ -79,6 +80,9 @@ const storage = new Storage({
     // We'll leave this blank for now
   },
 });
+// I'm not sure if we need to export this, but I'm going to for now
+// I'm pretty sure that we can just use the storage object we created above and just call the methods on it
+export default storage;
 
 // Get the keys of the items only in our pantry from storage
 export const loadPantry = async () => {
@@ -99,7 +103,7 @@ export const loadPantry = async () => {
     // This is for debugging purposes
     console.log(error);
     // Throw an error if there is no data
-    throw new PantryLoadListError('Failed to load pantry: ' + error);
+    throw new PantryLoadKeysError('Failed to load pantry keys: ' + error);
   }
 };
 
@@ -129,9 +133,12 @@ export const loadShoppingList = async () => {
 /*
  * Save an item in our pantry to storage
  * @param key - This should be the name of the item, ie "milk", "eggs", etc, no underscores are allowed
+ * @param name - name of item, should be the same as key
  * @param datePurchased - date the item was purchased
  * @param quantity - quantity of item
- * @param location - location of item, ie "fridge", "freezer", "pantry", etc
+ * @param freezer - if the item is in the freezer
+ * @param fridge - if the item is in the fridge
+ * @param pantry - if the item is in the pantry
  * @param bestBy - best by date of item
  * @param expiration - expiration date of item
  * @param onList - if the item is on the shopping list
@@ -143,8 +150,9 @@ export const saveItem = async (
   key: string,
   datePurchased: Date,
   quantity: Number,
-  location: String,
-  bestBy: Date,
+  fridge: Boolean,
+  freezer: Boolean,
+  pantry: Boolean,
   expiration: Date,
   onList: Boolean,
   purchasedItem: Boolean,
@@ -157,14 +165,18 @@ export const saveItem = async (
       // Set the data we want to store
       // nameInStorage: data
       data: {
+        // Item name
+        name: key,
         // Date purchased
         whenPurchased: datePurchased,
         // Quantity of item
         amount: quantity,
-        // Where it stored, ie "fridge", "freezer", "pantry", etc
-        stored: location,
-        // Date of best by
-        best: bestBy,
+        // If the item is in the refrigerator
+        fridge: fridge,
+        // If the item is in the freezer
+        freezer: freezer,
+        // If the item is in the pantry
+        pantry: pantry,
         // Date of expiration
         expires: expiration,
         // If the item is on the shopping list
@@ -253,12 +265,19 @@ export const updateQuantity = async (key: string, quantity: Number) => {
 };
 
 // Update the location of an item
-export const updateLocation = async (key: string, location: String) => {
+export const updateLocation = async (
+  key: string,
+  fridge: Boolean,
+  freezer: Boolean,
+  pantry: Boolean,
+) => {
   try {
     await storage.save({
       key: key,
       data: {
-        stored: location,
+        fridge: fridge,
+        freezer: freezer,
+        pantry: pantry,
       },
     });
   } catch (error) {
