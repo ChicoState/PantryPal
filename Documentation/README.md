@@ -43,9 +43,8 @@ According to the terms of the MIT License, we must include the following referen
 
 ## 4. Libraries Used
 - All of the libraries used in this project are listed below. The links will take you to the GitHub page for each library.
-- After each merge to the main branch, always make sure you run the following command to update the libraries:
+- After each merge to the main branch, always make sure you run the following command in the root of the project directory to make sure you have all of the required libraries:
 ```bash
-# using npm
 npm install
 ```
 
@@ -55,12 +54,8 @@ npm install
 #### 4.1.1. Installation
 In the root of the project directory, you can run:
 ```bash
-# using npm
 npm install react-native-storage
 npm install @react-native-async-storage/async-storage
-# OR using Yarn
-yarn add react-native-storage
-yarn add @react-native-async-storage/async-storage
 ```
 
 #### 4.1.2. Fixing Vulnerabilities
@@ -86,10 +81,7 @@ npm audit fix --force
 #### 4.2.1. Installation
 In the root of the project directory, you can run:
 ```bash
-# using npm
 npm install @react-native-community/datetimepicker --save
-# OR using Yarn
-yarn add @react-native-community/datetimepicker
 ```
 
 ### 4.3. NP
@@ -98,10 +90,7 @@ yarn add @react-native-community/datetimepicker
 #### 4.3.1. Installation
 In the root of the project directory, you can run:
 ```bash
-# using npm
 npm install --global np
-# OR using Yarn
-yarn global add np
 ```
 
 ### 4.4 React-Native-Version
@@ -110,10 +99,7 @@ yarn global add np
 #### 4.4.1 Installation
 In the root of the project directory, you can run:
 ```bash
-# using npm
-npm install --global react-native-version
-# OR using Yarn
-yarn global add react-native-version
+$ npm install react-native-version --save-dev
 ```
 
 ## 5. How to Run
@@ -134,18 +120,12 @@ This is one way to run our app — you can also run it directly from within Andr
 - First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 - To start Metro, run the following command from the _root_ of our React Native project (/PantryPal): 
 ```bash
-# using npm
 npm start
-# OR using Yarn
-yarn start
 ```
 
 #### 5.3.2 Start the Application
 - Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of our React Native project (/PantryPal). Run the following command to start our _Android_ app:
 ```bash
-# using npm
 npm run android
-# OR using Yarn
-yarn android
 ```
 - If everything is set up _correctly_, you should see our new app running in your _Android Emulator_ shortly.
