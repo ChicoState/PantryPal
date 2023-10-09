@@ -19,8 +19,14 @@ According to the terms of the MIT License, the following references must be incl
 ## React Native DateTimePicker
 [React-Native-DateTimePicker-License](/Documentation/Licenses/React-Native-DateTimePicker-License.md)
 
+## React-Native-Pager-View
+[React-Native-Pager-View-License](/Documentation/Licenses/React-Native-Pager-View-License.md)
+
 ## React-Native-Storage
 [React-Native-Storage-License](/Documentation/Licenses/React-Native-Storage-License.md)
 
 ## React-Native-Version
 [React-Native-Version-License](/Documentation/Licenses/React-Native-Version-License.md)
+
+## React-Navigation
+[React-Navigation-License](/Documentation/Licenses/React-Navigation-License.md)
