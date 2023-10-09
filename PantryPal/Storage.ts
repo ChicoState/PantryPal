@@ -2,7 +2,7 @@
 // Description: Storage functions for PantryPal
 
 // Currently only supports local storage
-// TODO: Add support for cloud storage, like Firebase
+// TODO: Add support for cloud storage, like Firebase or AWS
 
 // Necessary imports
 import Storage from 'react-native-storage';
@@ -102,8 +102,8 @@ export const loadPantry = async () => {
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is no data
-    throw new PantryLoadKeysError('Failed to load pantry keys: ' + error);
+    // Return nothing if there is no data
+    return [];
   }
 };
 
@@ -139,7 +139,6 @@ export const loadShoppingList = async () => {
  * @param freezer - if the item is in the freezer
  * @param fridge - if the item is in the fridge
  * @param pantry - if the item is in the pantry
- * @param bestBy - best by date of item
  * @param expiration - expiration date of item
  * @param onList - if the item is on the shopping list
  * @param purchasedItem - if the item is on the shopping list and has been purchased
@@ -180,11 +179,11 @@ export const saveItem = async (
         // Date of expiration
         expires: expiration,
         // If the item is on the shopping list
-        shoppingList: onList,
+        // shoppingList: onList,
         // If the item is on the shopping list has been purchased
-        purchasedOnList: purchasedItem,
+        // purchasedOnList: purchasedItem,
         // If the item is in our pantry
-        inPantry: inPantry,
+        // inPantry: inPantry,
       },
       expires: expires,
     });
@@ -223,7 +222,7 @@ export const deleteItem = async (key: string) => {
     // This is for debugging purposes
     console.log(error);
     // Throw an error if there is an issue
-    throw new PantryDeleteError('Failed to delete item: ' + error);
+    return new PantryDeleteError('Failed to delete item: ' + error);
   }
 };
 
