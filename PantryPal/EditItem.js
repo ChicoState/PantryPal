@@ -25,12 +25,12 @@ import {
   updateExpiration,
   PantryLoadListError,
   
-} from './Storage.ts';
+} from './Storage.js';
 
-const AddItem = ({navigation}) => {
+const EditItem = ({navigation}) => {
   const[name, ] = useState('');
 
-  const addItem = async () => {
+  const EditItem = async () => {
     
   }
 
@@ -57,13 +57,13 @@ const AddItem = ({navigation}) => {
       marginBottom: 20,
       top: 20, // Adjust as needed for vertical positioning
       fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'darkgreen', // Change to your desired color
+      color: 'yellow', // Change to your desired color
       fontWeight: 'bold',
       borderWidth: 5, // Add a border
       borderColor: 'white', // Border color
       borderRadius: 10, // Border radius
       padding: 10, // Padding inside the border
-      backgroundColor: 'powderblue',
+      backgroundColor: 'black',
     },
     text: {
       fontSize: 24,
@@ -75,11 +75,11 @@ const AddItem = ({navigation}) => {
   
   return (
     <View style = {styles.container}>
-      <Text style = {styles.title}>Add an Item</Text>
+      <Text style = {styles.title}>Edit an Item</Text>
 
     </View>
   )
 
 }
 
-export default AddItem;
+export default EditItem;

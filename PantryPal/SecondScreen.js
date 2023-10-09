@@ -2,30 +2,17 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  FlatList,
-  Button,
+  FlatList, 
   StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  StatusBar
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// This is the snackbar
+import Snackbar from 'react-native-snackbar';
 // This is the local storage methods
 import {
-  storage,
   loadPantry,
-  saveItem,
   loadItem,
-  deleteItem,
-  updateDatePurchased,
-  updateQuantity,
-  updateLocation,
-  updateExpirationDate,
-  updateBestBy,
-  updateExpiration,
   PantryLoadListError,
-  
-} from './Storage';
+} from './Storage.ts';
 
 
 //Will be the pantry screen
@@ -33,6 +20,49 @@ import {
 
 const SecondScreen = ({navigation}) => {
   const [pantryData, setPantryData] = useState([]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative', // Add this to allow absolute positioning
+    },
+    title: {
+      fontSize: 40,
+      position: 'absolute', // Position the title at the top
+      textAlign: 'center',
+      marginTop: 0,
+      marginBottom: 20,
+      top: 20, // Adjust as needed for vertical positioning
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'blue', // Change to your desired color
+      fontWeight: 'bold',
+      borderWidth: 5, // Add a border
+      borderColor: 'white', // Border color
+      borderRadius: 10, // Border radius
+      padding: 10, // Padding inside the border
+      backgroundColor: 'powderblue',
+    },
+    text: {
+      fontSize: 24,
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
+    },
+    text2: {
+      fontSize: 16,
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
+    },
+    text3: {
+      fontSize: 12,
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
+    }
+  });
 
   // This loads the pantry data from local storage
   useEffect(() => {
@@ -54,21 +84,24 @@ const SecondScreen = ({navigation}) => {
   // This is the render method
   const renderItem = ({ item }) => (
     <view>
-      <Text>Name: {item.name}</Text>
-      <Text>Quantity: {item.quantity}</Text>
-      <Text>Date Purchased: {item.datePurchased}</Text>
-      <Text>Expiration Date: {item.expiration}</Text>
-
+      <Text style = {styles.text2}>Name: {item.name}</Text>
+      <Text style = {styles.text3}>Quantity: {item.quantity}</Text>
+      <Text style = {styles.text3}>Date Purchased: {item.datePurchased}</Text>
+      <Text style = {styles.text3}>Expiration Date: {item.expiration}</Text>
+      <Text style = {styles.text3}>In Refrigerator?: {item.fridge}</Text>
+      <Text style = {styles.text3}>In Freezer?: {item.freezer}</Text>
+      <Text style = {styles.text3}>In Pantry?: {item.pantry}</Text>
     </view>
   )
-
+  // If the 
   return (
-    <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Button title = "Add Item" onPress = {() => navigation.navigate('AddItem')} />
-      <Button title = "Delete Item" onPress = {() => navigation.navigate('DeleteItem')} />
+    <View style = {styles.container}>
+      <Text style = {styles.title}>Your Pantry</Text>
+
       {pantryData.length === 0 ?(
-        <Text>You have no items in your pantry.</Text>
-      ) :(
+        <><Text style={styles.text}>Your pantry is empty!</Text>
+        <Text style={styles.text}>Add some items!</Text></>
+      ) : (
         <FlatList>
           data = {pantryData}
           renderItem = {renderItem}
