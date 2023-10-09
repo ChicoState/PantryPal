@@ -16,6 +16,12 @@ This is intended to be a guide for ourselves to understand the how to use the li
         1. [Installation](#431-installation)
     4. [React-Native-Version](#44-react-native-version)
         1. [Installation](#441-installation)
+    5. [React-Navigation](#45-react-navigation)
+        1. [Installation](#451-installation)
+    6. [React-Native-Pager-View](#46-react-native-pager-view)
+        1. [Installation](#461-installation)
+    7. [React-Native-Snackbar](#47-react-native-snackbar)
+        1. [Installation](#471-installation)
 5. [How to Run](#5-how-to-run)
     1. [Prerequisites](#51-prerequisites)
     2. [Install Dependencies](#52-install-dependencies)
@@ -30,6 +36,9 @@ This is intended to be a guide for ourselves to understand the how to use the li
 - /PantryPal/App.tsx - Contains navigation stack to navigate screens
 - /PantryPal/SecondScreen.js - Will contain the pantry functionality
 - /PantryPal/Storage.ts - Contains the local storage functionality
+- /PantryPal/AddItem.js - Contains the add pantry item functionality
+- /PantryPal/EditItem.js - Contains the edit pantry item functionality
+- /PantryPal/DeleteItem.js - Contains the delete pantry item functionality
 - View the files for more information
 
 ## 2. License References
@@ -101,6 +110,36 @@ In the root of the project directory, you can run:
 ```bash
 $ npm install react-native-version --save-dev
 ```
+
+### 4.5 React-Navigation
+- [React-Navigation](https://reactnavigation.org/docs/getting-started)
+
+#### 4.5.1 Installation
+In the root of the project directory, you can run:
+```bash
+npm install @react-navigation/material-top-tabs
+```
+
+### 4.6 React-Native-Pager-View
+- [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
+
+#### 4.6.1 Installation
+In the root of the project directory, you can run:
+```bash
+npm i react-native-pager-view
+```
+
+### 4.7 React-Native-Snackbar
+- [React-Native-Snackbar](https://github.com/cooperka/react-native-snackbar/tree/main)
+
+#### 4.7.1 Installation
+In the root of the project directory, you can run:
+```bash
+npm install react-native-snackbar --save
+```
+
+### 4.6 React-Native-Pager-View
+- [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
 
 ## 5. How to Run
 
