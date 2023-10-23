@@ -52,7 +52,7 @@ According to the terms of the MIT License, we must include the following referen
 
 ## 4. Libraries Used
 - All of the libraries used in this project are listed below. The links will take you to the GitHub page for each library.
-- After each merge to the main branch, always make sure you run the following command in the root of the project directory to make sure you have all of the required libraries:
+- After each pull of the main branch, always make sure you run the following command in the root of the project directory to make sure you have all of the required libraries:
 ```bash
 npm install
 ```
