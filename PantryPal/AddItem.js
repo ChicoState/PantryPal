@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react';
 import {
   View,
   Text,
+  TextInput,
   FlatList,
   Button,
   StyleSheet,
@@ -24,14 +25,108 @@ import {
   updateBestBy,
   updateExpiration,
   PantryLoadListError,
+  PantrySaveListError
   
 } from './Storage.ts';
+// This is the snackbar
+import Snackbar from 'react-native-snackbar';
 
 const AddItem = ({navigation}) => {
-  const[name, ] = useState('');
+  const [name, setName] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [datePurchased, setDatePurchased] = useState(new Date());
+  const [expirationDate, setExpirationDate] = useState(new Date());
+  const [inRefrigerator, setInRefrigerator] = useState(false);
+  const [inFreezer, setInFreezer] = useState(false);
+  const [inPantry, setInPantry] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const showDatepicker = () => {
+    setShowDatePicker(true);
+  };
 
   const addItem = async () => {
-    
+    try {
+      await saveItem(name, datePurchased, quantity, inRefrigerator, inFreezer, inPantry, expirationDate);
+      Snackbar.show({
+        text: 'Item added successfully',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      // Clear the input field after adding
+      setName('');
+      setQuantity('');
+      setDatePurchased(new Date());
+      setExpirationDate(new Date());
+      setInRefrigerator(false);
+      setInFreezer(false);
+      setInPantry(false);
+    } 
+    catch (error) {
+      console.log(error);
+      Snackbar.show({
+        text: 'Item not added',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      throw new PantrySaveListError('Item not added');
+    }
+  }
+
+  const validateName = (inputText) => {
+    if (inputText.trim() === '') {
+      Snackbar.show({
+        text: 'Please enter an item',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setErrorMessage('No item entered');
+      setName('');
+    }
+    // inputText.includes(' ') ||
+    else if (inputText.includes('_')) {
+      Snackbar.show({
+        text: 'Item name cannot contain spaces or underscores',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setErrorMessage('Item name contains spaces or underscores');
+      setName('');
+    }
+    else {
+      setErrorMessage('');
+      setName(inputText);
+    }
+  };
+
+  const validateDate = (inputDate) => {
+    if (inputDate === null) {
+      Snackbar.show({
+        text: 'Please enter a date',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      errorMessage('No date entered');
+      setErrorMessage(errorMessage);
+      setDatePurchased(new Date());
+    }
+    else {
+      setErrorMessage('');
+      setDatePurchased(inputDate);
+    }
+  }
+
+
+  const validateExpDate = (inputDate) => {
+    currentDate = new Date();
+    if (inputDate === null || inputDate < currentDate) {
+      Snackbar.show({
+        text: 'Please enter a valid date',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setErrorMessage('No or invalid date entered');
+      setDatePurchased(new Date());
+    }
+    else {
+      setErrorMessage('');
+      setDatePurchased(inputDate);
+    }
   }
 
   const styles = StyleSheet.create({
@@ -48,6 +143,15 @@ const AddItem = ({navigation}) => {
       width: 200,
       padding: 8,
       marginVertical: 10,
+    },
+    textBox2: {
+      borderWidth: 2,
+      borderColor: 'black',
+      height: 40,
+      width: 200,
+      padding: 8,
+      marginVertical: 10,
+      marginBottom: 10,
     },
     title: {
       fontSize: 40,
@@ -71,12 +175,69 @@ const AddItem = ({navigation}) => {
       color: 'black', // Change to your desired color
       fontWeight: 'bold',
     },
+    status: {
+      fontSize: 14,
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
   });
   
   return (
     <View style = {styles.container}>
       <Text style = {styles.title}>Add an Item</Text>
-
+      <TextInput
+        placeholder="Enter a Food Item"
+        value={name}
+        onChangeText={(name) => validateName(name)}
+        style={styles.textBox2}
+      />
+      <TextInput
+        keyboardType='numeric'
+        placeholder="Enter a Quantity"
+        onChangeText={setQuantity}
+        value={quantity}
+        maxLength={5}
+        style={styles.textBox2}
+      />
+      <Button title="Select Date Purchased" onPress={showDatepicker} />
+      <Text style={styles.status}>Date Purchased: {datePurchased.toDateString()}</Text>
+      {showDatePicker && (
+        <DateTimePicker
+          value={datePurchased}
+          mode="date"
+          display="default"
+          onChange={(_, selectedDate) => {
+            setShowDatePicker(false);
+            if (selectedDate) {
+              setDatePurchased(selectedDate);
+            }
+          }}
+        />
+      )}
+      <Button title="Select Expiration" onPress={showDatepicker} />
+      <Text style={styles.status}>Expires: {expirationDate.toDateString()}</Text>
+      {showDatePicker && (
+        <DateTimePicker
+          value={expirationDate}
+          mode="date"
+          display="default"
+          onChange={(_, selectedDate) => {
+            setShowDatePicker(false);
+            if (selectedDate) {
+              setExpirationDate(selectedDate);
+            }
+          }}
+        />
+      )}
+      <Button title="In Refrigerator" onPress={() => setInRefrigerator(!inRefrigerator)} />
+      <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? 'Yes' : 'No'}</Text>
+      <Button title="Freezer" onPress={() => setInFreezer(!inFreezer)} />
+      <Text style={styles.status}>In Freezer?: {inFreezer ? 'Yes' : 'No'}</Text>
+      <Button title="Pantry" onPress={() => setInPantry(!inPantry)} />
+      <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
+      <Button color={'green'} title="Add Item"onPress={addItem} />
     </View>
   )
 
