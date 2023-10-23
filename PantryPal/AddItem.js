@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,8 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar
-} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 // This is the local storage methods
 import {
   storage,
@@ -27,19 +27,19 @@ import {
   PantryLoadListError,
   PantrySaveListError
   
-} from './Storage.ts';
+} from "./Storage.ts";
 // This is the snackbar
-import Snackbar from 'react-native-snackbar';
+import Snackbar from "react-native-snackbar";
 
 const AddItem = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [datePurchased, setDatePurchased] = useState(new Date());
   const [expirationDate, setExpirationDate] = useState(new Date());
   const [inRefrigerator, setInRefrigerator] = useState(false);
   const [inFreezer, setInFreezer] = useState(false);
   const [inPantry, setInPantry] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const showDatepicker = () => {
@@ -50,12 +50,12 @@ const AddItem = ({navigation}) => {
     try {
       await saveItem(name, datePurchased, quantity, inRefrigerator, inFreezer, inPantry, expirationDate);
       Snackbar.show({
-        text: 'Item added successfully',
+        text: "Item added successfully",
         duration: Snackbar.LENGTH_SHORT,
       });
       // Clear the input field after adding
-      setName('');
-      setQuantity('');
+      setName("");
+      setQuantity("");
       setDatePurchased(new Date());
       setExpirationDate(new Date());
       setInRefrigerator(false);
@@ -65,33 +65,46 @@ const AddItem = ({navigation}) => {
     catch (error) {
       console.log(error);
       Snackbar.show({
-        text: 'Item not added',
+        text: "Item not added",
         duration: Snackbar.LENGTH_SHORT,
       });
-      throw new PantrySaveListError('Item not added');
+      throw new PantrySaveListError("Item not added");
     }
   }
 
   const validateName = (inputText) => {
-    if (inputText.trim() === '') {
+    if (inputText.trim() === "") {
       Snackbar.show({
-        text: 'Please enter an item',
+        text: "Please enter an item",
         duration: Snackbar.LENGTH_SHORT,
       });
-      setErrorMessage('No item entered');
-      setName('');
+      setErrorMessage("No item entered");
+      setName("");
+      setQuantity("");
+      setDatePurchased(new Date());
+      setExpirationDate(new Date());
+      setInRefrigerator(false);
+      setInFreezer(false);
+      setInPantry(false);
     }
-    // inputText.includes(' ') ||
-    else if (inputText.includes('_')) {
+    // inputText.includes(" ") ||
+    else if (inputText.includes("_")) {
       Snackbar.show({
-        text: 'Item name cannot contain spaces or underscores',
+        text: "Item name cannot contain underscores",
         duration: Snackbar.LENGTH_SHORT,
       });
-      setErrorMessage('Item name contains spaces or underscores');
-      setName('');
+      setErrorMessage("Item name contains underscores");
+      setName("");
+      setQuantity("");
+      setDatePurchased(new Date());
+      setExpirationDate(new Date());
+      setInRefrigerator(false);
+      setInFreezer(false);
+      setInPantry(false);
     }
     else {
-      setErrorMessage('');
+      errorMessage("");
+      setErrorMessage(errorMessage);
       setName(inputText);
     }
   };
@@ -99,15 +112,15 @@ const AddItem = ({navigation}) => {
   const validateDate = (inputDate) => {
     if (inputDate === null) {
       Snackbar.show({
-        text: 'Please enter a date',
+        text: "Please enter a date",
         duration: Snackbar.LENGTH_SHORT,
       });
-      errorMessage('No date entered');
+      errorMessage("No date entered");
       setErrorMessage(errorMessage);
       setDatePurchased(new Date());
     }
     else {
-      setErrorMessage('');
+      setErrorMessage("");
       setDatePurchased(inputDate);
     }
   }
@@ -117,14 +130,14 @@ const AddItem = ({navigation}) => {
     currentDate = new Date();
     if (inputDate === null || inputDate < currentDate) {
       Snackbar.show({
-        text: 'Please enter a valid date',
+        text: "Please enter a valid date",
         duration: Snackbar.LENGTH_SHORT,
       });
-      setErrorMessage('No or invalid date entered');
+      setErrorMessage("No or invalid date entered");
       setDatePurchased(new Date());
     }
     else {
-      setErrorMessage('');
+      setErrorMessage("");
       setDatePurchased(inputDate);
     }
   }
@@ -132,13 +145,13 @@ const AddItem = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative', // Add this to allow absolute positioning
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative", // Add this to allow absolute positioning
     },
     textBox: {
       borderWidth: 2,
-      borderColor: 'black',
+      borderColor: "black",
       height: 40,
       width: 200,
       padding: 8,
@@ -146,7 +159,7 @@ const AddItem = ({navigation}) => {
     },
     textBox2: {
       borderWidth: 2,
-      borderColor: 'black',
+      borderColor: "black",
       height: 40,
       width: 200,
       padding: 8,
@@ -155,31 +168,31 @@ const AddItem = ({navigation}) => {
     },
     title: {
       fontSize: 40,
-      position: 'absolute', // Position the title at the top
-      textAlign: 'center',
+      position: "absolute", // Position the title at the top
+      textAlign: "center",
       marginTop: 0,
       marginBottom: 20,
       top: 20, // Adjust as needed for vertical positioning
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'darkgreen', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "darkgreen", // Change to your desired color
+      fontWeight: "bold",
       borderWidth: 5, // Add a border
-      borderColor: 'white', // Border color
+      borderColor: "green", // Border color
       borderRadius: 10, // Border radius
       padding: 10, // Padding inside the border
-      backgroundColor: 'powderblue',
+      backgroundColor: "powderblue",
     },
     text: {
       fontSize: 24,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "black", // Change to your desired color
+      fontWeight: "bold",
     },
     status: {
       fontSize: 14,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "black", // Change to your desired color
+      fontWeight: "bold",
       marginBottom: 10,
     },
   });
@@ -194,7 +207,7 @@ const AddItem = ({navigation}) => {
         style={styles.textBox2}
       />
       <TextInput
-        keyboardType='numeric'
+        keyboardType="numeric"
         placeholder="Enter a Quantity"
         onChangeText={setQuantity}
         value={quantity}
@@ -232,12 +245,12 @@ const AddItem = ({navigation}) => {
         />
       )}
       <Button title="In Refrigerator" onPress={() => setInRefrigerator(!inRefrigerator)} />
-      <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? 'Yes' : 'No'}</Text>
+      <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? "Yes" : "No"}</Text>
       <Button title="Freezer" onPress={() => setInFreezer(!inFreezer)} />
-      <Text style={styles.status}>In Freezer?: {inFreezer ? 'Yes' : 'No'}</Text>
+      <Text style={styles.status}>In Freezer?: {inFreezer ? "Yes" : "No"}</Text>
       <Button title="Pantry" onPress={() => setInPantry(!inPantry)} />
-      <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
-      <Button color={'green'} title="Add Item"onPress={addItem} />
+      <Text style={styles.status}>In Pantry: {inPantry ? "Yes" : "No"}</Text>
+      <Button color={"green"} title="Add Item"onPress={addItem} />
     </View>
   )
 

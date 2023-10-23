@@ -8,6 +8,34 @@
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Create storage object
+const storage = new Storage({
+  // Set maximum capacity of storage
+  // Default is 1000 items
+  size: 1000,
+
+  // Set storage engine
+  // Currently only supports AsyncStorage
+  storageBackend: AsyncStorage,
+
+  // Set expiration time of data in storage
+  // Default is 1 day (1000 * 3600 * 24 milliseconds)
+  // Set to null to disable expiration
+  defaultExpires: null,
+
+  // Cache data in memory, default is true
+  enableCache: true,
+
+  // If data is not found in storage,
+  // return the corresponding sync method if specified
+  sync: {
+    // We"ll leave this blank for now
+  },
+});
+// I"m not sure if we need to export this, but I"m going to for now
+// I"m pretty sure that we can just use the storage object we created above and just call the methods on it
+export default storage;
+
 // Various Error Handlers
 // Error for saving the list of items
 export class PantrySaveListError extends Error {
@@ -21,7 +49,7 @@ export class PantrySaveListError extends Error {
 export class PantryLoadKeysError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'PantryLoadError';
+    this.name = 'PantryLoadKeysError';
   }
 }
 
@@ -56,48 +84,26 @@ export class ShoppingListLoadError extends Error {
   }
 }
 
-// Create storage object
-const storage = new Storage({
-  // Set maximum capacity of storage
-  // Default is 1000 items
-  size: 1000,
+// Loading Functions
+// Get the keys of all the items in our pantry from storage
+export const loadPantryKeys = async () => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    return keys;
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    // Throw an error if there is no data
+    // throw new PantryLoadKeysError('Failed to load pantry: ' + error);
+    return [];
+  }
+};
 
-  // Set storage engine
-  // Currently only supports AsyncStorage
-  storageBackend: AsyncStorage,
-
-  // Set expiration time of data in storage
-  // Default is 1 day (1000 * 3600 * 24 milliseconds)
-  // Set to null to disable expiration
-  defaultExpires: null,
-
-  // Cache data in memory, default is true
-  enableCache: true,
-
-  // If data is not found in storage,
-  // return the corresponding sync method if specified
-  sync: {
-    // We'll leave this blank for now
-  },
-});
-// I'm not sure if we need to export this, but I'm going to for now
-// I'm pretty sure that we can just use the storage object we created above and just call the methods on it
-export default storage;
-
-// Get the keys of the items only in our pantry from storage
 export const loadPantry = async () => {
   try {
     // Get the keys of the items in storage
     const keys = await AsyncStorage.getAllKeys();
     // Filter out the keys that are not in our pantry
-    const pantryKeys = [];
-    // Check if the item is in our pantry
-    for (const key of keys) {
-      const data = await loadItem(key);
-      if (data.inPantry) {
-        pantryKeys.push(key);
-      }
-    }
     return keys;
     // return pantryKeys;
   } catch (error) {
@@ -177,7 +183,7 @@ export const saveItem = async (
         // If the item is in the pantry
         pantry: pantry,
         // Date of expiration
-        expires: expiration,
+        expiration: expiration,
         // If the item is on the shopping list
         // shoppingList: onList,
         // If the item is on the shopping list has been purchased

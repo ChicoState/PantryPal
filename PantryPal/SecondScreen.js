@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   FlatList, 
   StyleSheet,
-} from 'react-native';
+} from "react-native";
 // This is the snackbar
-import Snackbar from 'react-native-snackbar';
+import Snackbar from "react-native-snackbar";
 // This is the local storage methods
 import {
-  loadPantry,
+  loadPantryKeys,
   loadItem,
   PantryLoadListError,
 } from './Storage.ts';
@@ -24,43 +24,43 @@ const SecondScreen = ({navigation}) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative', // Add this to allow absolute positioning
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative", // Add this to allow absolute positioning
     },
     title: {
       fontSize: 40,
-      position: 'absolute', // Position the title at the top
-      textAlign: 'center',
+      position: "absolute", // Position the title at the top
+      textAlign: "center",
       marginTop: 0,
       marginBottom: 20,
       top: 20, // Adjust as needed for vertical positioning
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'blue', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "blue", // Change to your desired color
+      fontWeight: "bold",
       borderWidth: 5, // Add a border
-      borderColor: 'white', // Border color
+      borderColor: "blue", // Border color
       borderRadius: 10, // Border radius
       padding: 10, // Padding inside the border
-      backgroundColor: 'powderblue',
+      backgroundColor: "powderblue",
     },
     text: {
       fontSize: 24,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "black", // Change to your desired color
+      fontWeight: "bold",
     },
     text2: {
       fontSize: 16,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "black", // Change to your desired color
+      fontWeight: "bold",
     },
     text3: {
       fontSize: 12,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
+      fontFamily: "Trebuchet MS", // Change to your desired font
+      color: "black", // Change to your desired color
+      fontWeight: "bold",
     }
   });
 
@@ -68,7 +68,7 @@ const SecondScreen = ({navigation}) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const pantryKeys = await loadPantry();
+        const pantryKeys = await loadPantryKeys();
         console.log("The pantry keys are:", pantryKeys);
         if (pantryKeys.length === 0) {
           throw new PantryLoadListError('Pantry list is empty');
@@ -81,7 +81,7 @@ const SecondScreen = ({navigation}) => {
         // This is for debugging purposes
         console.log(error);
         // This is for the user
-        throw new PantryLoadListError('Failed to load pantry list' + error);
+        throw new PantryLoadListError('Failed to load pantry list', error);
       }
     };
     // // Load the pantry data from local storage
