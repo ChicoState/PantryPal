@@ -28,7 +28,39 @@ import {
 } from './Storage.js';
 
 const EditItem = ({navigation}) => {
-  const[name, ] = useState('');
+  const[name, setName] = useState('');
+  const[quantity, setQuantity] = useState('');
+  const[datePurchased, setDatePurchased] = useState('');
+  const[expirationDate, setExpirationDate] = useState('');
+  const[inRefrigerator, setInRefrigerator] = useState('');
+  const[inFreezer, setInFreezer] = useState('');
+  const[inPantry, setInPantry] = useState('');
+  const[errorMessage, setErrorMessage] = useState('');
+
+  const validateName = (inputText) => {
+    if (inputText.trim() === '') {
+      Snackbar.show({
+        text: 'Please enter an item',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setErrorMessage('No item entered');
+      setName('');
+    }
+    else if (inputText.includes(' ') || inputText.includes('_')) {
+      Snackbar.show({
+        text: 'Item name cannot contain spaces or underscores',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      setErrorMessage('Item name contains spaces or underscores');
+      setText('');
+    }
+    else {
+      setErrorMessage('');
+      setName(inputText);
+    }
+  }
+
+
 
   const EditItem = async () => {
     

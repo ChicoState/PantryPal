@@ -66,19 +66,38 @@ const SecondScreen = ({navigation}) => {
 
   // This loads the pantry data from local storage
   useEffect(() => {
-    // Load the pantry data from local storage
-    loadPantry()
-      .then(async (pantryKeys) => {
+    const loadData = async () => {
+      try {
+        const pantryKeys = await loadPantry();
+        console.log("The pantry keys are:", pantryKeys);
+        if (pantryKeys.length === 0) {
+          throw new PantryLoadListError('Pantry list is empty');
+        }
         const loadedDataPromises = pantryKeys.map((key) => loadItem(key));
         const loadedData = await Promise.all(loadedDataPromises);
         setPantryData(loadedData);
-      })
-      .catch((error) => {
+      }
+      catch (error) {
         // This is for debugging purposes
         console.log(error);
         // This is for the user
         throw new PantryLoadListError('Failed to load pantry list' + error);
-      });
+      }
+    };
+    // // Load the pantry data from local storage
+    // loadPantry()
+    //   .then(async (pantryKeys) => {
+    //     console.log("The pantry keys are:", pantryKeys);
+    //     const loadedDataPromises = pantryKeys.map((key) => loadItem("${key}"));
+    //     const loadedData = await Promise.all(loadedDataPromises);
+    //     setPantryData(loadedData);
+    //   })
+    //   .catch((error) => {
+    //     // This is for debugging purposes
+    //     console.log(error);
+    //     // This is for the user
+    //     throw new PantryLoadListError('Failed to load pantry list' + error);
+    //   });
   }, []);
 
   // This is the render method
@@ -105,7 +124,7 @@ const SecondScreen = ({navigation}) => {
         <FlatList>
           data = {pantryData}
           renderItem = {renderItem}
-          keyExtractor = {item => item.key}
+          keyExtractor = {(item) => item.key}
         </FlatList>
       )}
     </View>
