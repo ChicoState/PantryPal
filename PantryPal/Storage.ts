@@ -98,11 +98,12 @@ export const loadPantry = async () => {
         pantryKeys.push(key);
       }
     }
-    return pantryKeys;
+    return keys;
+    // return pantryKeys;
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Return nothing if there is no data
+    // Return nothing if there is no data or an error
     return [];
   }
 };
@@ -142,7 +143,6 @@ export const loadShoppingList = async () => {
  * @param expiration - expiration date of item
  * @param onList - if the item is on the shopping list
  * @param purchasedItem - if the item is on the shopping list and has been purchased
- * @param inPantry - if the item is in our pantry
  * @param expires - expiration time of data in storage, we are going to set this to null for now
  */
 export const saveItem = async (
@@ -182,8 +182,6 @@ export const saveItem = async (
         // shoppingList: onList,
         // If the item is on the shopping list has been purchased
         // purchasedOnList: purchasedItem,
-        // If the item is in our pantry
-        // inPantry: inPantry,
       },
       expires: expires,
     });
