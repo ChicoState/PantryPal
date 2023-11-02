@@ -11,14 +11,14 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.title}> Pantry Pal </Text>
         <View style={styles.button}>
           <Button
-            title="Go to Grocery List"
+            title="Grocery List"
             color="teal"
             onPress={() => navigation.navigate('Grocery List')}
           />
         </View>
         <View style={styles.button}>
           <Button
-            title="Go to Pantry"
+            title="Pantry"
             color="maroon"
             onPress={() => navigation.navigate('Pantry')}
           />
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     marginTop: 150,
     top: 20, // Adjust as needed for vertical positioning
     fontFamily: 'Trebuchet MS', // Change to your desired font
-    color: 'midnightblue', // Change to your desired color
+    color: 'teal', // Change to your desired color
     fontWeight: 'bold',
     borderWidth: 5, // Add a border
-    borderColor: 'white', // Border color
+    borderColor: 'powderblue', // Border color
     borderRadius: 10, // Border radius
     padding: 10, // Padding inside the border
     backgroundColor: 'powderblue',
