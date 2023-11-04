@@ -1,37 +1,34 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
 
-// Implements the grocery list functionality
-
 const GroceryList = ({ navigation }) => {
-  const [word, setWord] = useState('');
-  const [wordList, setWordList] = useState([]);
-  const [checkedItems, setCheckedItems] = useState({});
+  const [foodItem, setFoodItem] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [groceryList, setGroceryList] = useState([]);
 
-  const handleAddWord = () => {
-    if (word.trim() !== '') {
-      setWordList([...wordList, word]);
-      setCheckedItems({ ...checkedItems, [word]: false });
-      setWord('');
+  const handleAddItem = () => {
+    if (foodItem.trim() !== '' && quantity.trim() !== '') {
+      const newItem = { name: foodItem, quantity: quantity, checked: false };
+      setGroceryList([...groceryList, newItem]);
+      setFoodItem('');
+      setQuantity('');
     }
   };
 
-  const toggleCheckbox = (item) => {
-    setCheckedItems({ ...checkedItems, [item]: !checkedItems[item] });
+  const toggleCheckbox = (index) => {
+    const updatedList = [...groceryList];
+    updatedList[index].checked = !updatedList[index].checked;
+    setGroceryList(updatedList);
+  };
+
+  const handleRemoveItem = (index) => {
+    const updatedList = [...groceryList];
+    updatedList.splice(index, 1);
+    setGroceryList(updatedList);
   };
 
   const clearList = () => {
-    setWordList([]);
-    setCheckedItems({});
-  };
-
-  const handleRemoveWord = (itemToRemove) => {
-    const updatedWordList = wordList.filter((item) => item !== itemToRemove);
-    setWordList(updatedWordList);
-    // Remove the checked status as well
-    const updatedCheckedItems = { ...checkedItems };
-    delete updatedCheckedItems[itemToRemove];
-    setCheckedItems(updatedCheckedItems);
+    setGroceryList([]);
   };
 
   return (
@@ -42,26 +39,35 @@ const GroceryList = ({ navigation }) => {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <TextInput
           placeholder="Enter a Food Item"
-          value={word}
-          onChangeText={(text) => setWord(text)}
-          style={{ borderWidth: 1, borderColor: 'gray', width: 200, padding: 8, marginVertical: 10 }}
+          value={foodItem}
+          onChangeText={(text) => setFoodItem(text)}
+          style={{ borderWidth: 1, borderColor: 'gray', width: 200, padding: 8, marginVertical: 10, backgroundColor: 'white' }}
         />
-        <Button title="Add Item" onPress={handleAddWord} color="teal" />
+        <TextInput
+          placeholder="Enter Quantity"
+          value={quantity}
+          onChangeText={(text) => setQuantity(text)}
+          style={{ borderWidth: 1, borderColor: 'gray', width: 200, padding: 8, marginBottom: 10, backgroundColor: 'white' }}
+          keyboardType="numeric"
+        />
+        <Button title="Add Item" onPress={handleAddItem} color="teal" />
         <FlatList
-          data={wordList}
+          data={groceryList}
+          numColumns = {1}
           style={{ marginTop: 10 }}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                backgroundColor: 'white', // Add the background color here
-                padding: 8, // Add padding here
-                borderRadius: 4, // Add border radius here
-                marginBottom: 8, // Add margin at the bottom to separate entries
+                backgroundColor: 'white',
+                padding: 8,
+                borderRadius: 8,
+                marginRight: 5,
+                marginBottom: 8,
               }}
             >
-              <TouchableOpacity onPress={() => toggleCheckbox(item)}>
+              <TouchableOpacity onPress={() => toggleCheckbox(index)}>
                 <View
                   style={{
                     width: 24,
@@ -74,7 +80,7 @@ const GroceryList = ({ navigation }) => {
                     alignItems: 'center',
                   }}
                 >
-                  {checkedItems[item] && (
+                  {item.checked && (
                     <View
                       style={{
                         width: 16,
@@ -86,9 +92,9 @@ const GroceryList = ({ navigation }) => {
                   )}
                 </View>
               </TouchableOpacity>
-              <Text>{item}</Text>
-              <View style={{ marginLeft: 10 }}>
-                <Button title="X" onPress={() => handleRemoveWord(item)} color="maroon" />
+              <Text>{item.name} : {item.quantity}</Text>
+              <View style={{ marginLeft: 7 }}>
+                <Button title="X" onPress={() => handleRemoveItem(index)} color="maroon" />
               </View>
             </View>
           )}
@@ -99,6 +105,5 @@ const GroceryList = ({ navigation }) => {
     </ImageBackground>
   );
 };
-
 
 export default GroceryList;
