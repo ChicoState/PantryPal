@@ -16,8 +16,6 @@ import {
 
 
 //Will be the pantry screen
-//Empty right now
-
 const SecondScreen = ({navigation}) => {
   const [pantryData, setPantryData] = useState([]);
 
@@ -76,6 +74,7 @@ const SecondScreen = ({navigation}) => {
         const loadedDataPromises = pantryKeys.map((key) => loadItem(key));
         const loadedData = await Promise.all(loadedDataPromises);
         setPantryData(loadedData);
+        console.log("The pantry data is:", pantryData);
       }
       catch (error) {
         // This is for debugging purposes

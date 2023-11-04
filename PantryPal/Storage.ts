@@ -291,25 +291,6 @@ export const updateLocation = async (
   }
 };
 
-// Update the best by date of an item
-export const updateBestBy = async (key: string, bestBy: Date) => {
-  try {
-    await storage.save({
-      key: key,
-      data: {
-        best: bestBy,
-      },
-    });
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is no data
-    throw new PantryUpdateError(
-      'Failed to update items best by date: ' + error,
-    );
-  }
-};
-
 // Update the expiration date of an item
 export const updateExpiration = async (key: string, expiration: Date) => {
   try {

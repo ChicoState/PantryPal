@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, {useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,14 @@ import {
   Modal,
   TouchableOpacity,
   TextInput,
-} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 // This is the local storage methods
 import {
   storage,
   loadPantry,
   loadPantryKeys,
+  loadItem,
   updateDatePurchased,
   updateQuantity,
   updateLocation,
@@ -25,42 +26,42 @@ import {
   PantryLoadItemError,
   PantryLoadKeysError
   
-} from "./Storage.ts";
+} from './Storage.ts';
 
 const EditItem = ({navigation}) => {
-  const[name, setName] = useState("");
-  const[quantity, setQuantity] = useState("");
+  const[name, setName] = useState('');
+  const[quantity, setQuantity] = useState('');
   const[datePurchased, setDatePurchased] = useState(new Date());
   const[expirationDate, setExpirationDate] = useState(new Date());
   const[inRefrigerator, setInRefrigerator] = useState(false);
   const[inFreezer, setInFreezer] = useState(false);
   const[inPantry, setInPantry] = useState(false);
-  const[errorMessage, setErrorMessage] = useState("");
+  const[errorMessage, setErrorMessage] = useState('');
   const[showDatePicker, setShowDatePicker] = useState(false);
   const[pantryData, setPantryData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
 
-
+  // Text input validation
   const validateName = (inputText) => {
-    if (inputText.trim() === "") {
+    if (inputText.trim() === '') {
       Snackbar.show({
-        text: "Please enter an item",
+        text: 'Please enter an item',
         duration: Snackbar.LENGTH_SHORT,
       });
-      setErrorMessage("No item entered");
-      setName("");
+      setErrorMessage('No item entered');
+      setName('');
     }
-    else if (inputText.includes(" ") || inputText.includes("_")) {
+    else if (inputText.includes('_')) {
       Snackbar.show({
-        text: "Item name cannot contain spaces or underscores",
+        text: 'Item name cannot contain underscores',
         duration: Snackbar.LENGTH_SHORT,
       });
-      setErrorMessage("Item name contains spaces or underscores");
-      setText("");
+      setErrorMessage('Item name contains underscores');
+      setText('');
     }
     else {
-      setErrorMessage("");
+      setErrorMessage('');
       setName(inputText);
     }
   }
@@ -79,20 +80,19 @@ const EditItem = ({navigation}) => {
   };
 
   const EditItem = async () => {
-    
     setEditModalVisible(false);
   }
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative", // Add this to allow absolute positioning
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative', // Add this to allow absolute positioning
     },
     textBox: {
       borderWidth: 2,
-      borderColor: "black",
+      borderColor: 'black',
       height: 40,
       width: 200,
       padding: 8,
@@ -100,7 +100,7 @@ const EditItem = ({navigation}) => {
     },
     textBox2: {
       borderWidth: 2,
-      borderColor: "black",
+      borderColor: 'black',
       height: 40,
       width: 200,
       padding: 8,
@@ -109,31 +109,31 @@ const EditItem = ({navigation}) => {
     },
     title: {
       fontSize: 40,
-      position: "absolute", // Position the title at the top
-      textAlign: "center",
+      position: 'absolute', // Position the title at the top
+      textAlign: 'center',
       marginTop: 0,
       marginBottom: 20,
       top: 20, // Adjust as needed for vertical positioning
-      fontFamily: "Trebuchet MS", // Change to your desired font
-      color: "orange", // Change to your desired color
-      fontWeight: "bold",
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'orange', // Change to your desired color
+      fontWeight: 'bold',
       borderWidth: 5, // Add a border
-      borderColor: "orange", // Border color
+      borderColor: 'orange', // Border color
       borderRadius: 10, // Border radius
       padding: 10, // Padding inside the border
-      backgroundColor: "powderblue",
+      backgroundColor: 'powderblue',
     },
     text: {
       fontSize: 24,
-      fontFamily: "Trebuchet MS", // Change to your desired font
-      color: "black", // Change to your desired color
-      fontWeight: "bold",
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
     },
     status: {
       fontSize: 14,
-      fontFamily: "Trebuchet MS", // Change to your desired font
-      color: "black", // Change to your desired color
-      fontWeight: "bold",
+      fontFamily: 'Trebuchet MS', // Change to your desired font
+      color: 'black', // Change to your desired color
+      fontWeight: 'bold',
       marginBottom: 10,
     },
   });
@@ -182,20 +182,20 @@ const EditItem = ({navigation}) => {
         <View>
           <Text style={styles.text}>Editing Item: {selectedItem?.key}</Text>
           <TextInput
-            keyboardType="numeric"
-            placeholder="Enter a Quantity"
+            keyboardType='numeric'
+            placeholder='Enter a Quantity'
             onChangeText={setQuantity}
             value={quantity}
             maxLength={5}
             style={styles.textBox2}
           />
-          <Button title="Select Date Purchased" onPress={showDatepicker} />
+          <Button title='Select Date Purchased' onPress={showDatepicker} />
           <Text style={styles.status}>Date Purchased: {datePurchased.toDateString()}</Text>
           {showDatePicker && (
             <DateTimePicker
               value={datePurchased}
-              mode="date"
-              display="default"
+              mode='date'
+              display='default'
               onChange={(_, selectedDate) => {
                 setShowDatePicker(false);
                 if (selectedDate) {
@@ -204,13 +204,13 @@ const EditItem = ({navigation}) => {
               }}
             />
           )}
-          <Button title="Select Expiration" onPress={showDatepicker} />
+          <Button title='Select Expiration' onPress={showDatepicker} />
           <Text style={styles.status}>Expires: {expirationDate.toDateString()}</Text>
           {showDatePicker && (
             <DateTimePicker
               value={expirationDate}
-              mode="date"
-              display="default"
+              mode='date'
+              display='default'
               onChange={(_, selectedDate) => {
                 setShowDatePicker(false);
                 if (selectedDate) {
@@ -219,15 +219,15 @@ const EditItem = ({navigation}) => {
               }}
             />
           )}
-          <Button title="In Refrigerator" onPress={() => setInRefrigerator(!inRefrigerator)} />
-          <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? "Yes" : "No"}</Text>
-          <Button title="Freezer" onPress={() => setInFreezer(!inFreezer)} />
-          <Text style={styles.status}>In Freezer?: {inFreezer ? "Yes" : "No"}</Text>
-          <Button title="Pantry" onPress={() => setInPantry(!inPantry)} />
-          <Text style={styles.status}>In Pantry: {inPantry ? "Yes" : "No"}</Text>
+          <Button title='In Refrigerator' onPress={() => setInRefrigerator(!inRefrigerator)} />
+          <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? 'Yes' : 'No'}</Text>
+          <Button title='Freezer' onPress={() => setInFreezer(!inFreezer)} />
+          <Text style={styles.status}>In Freezer?: {inFreezer ? 'Yes' : 'No'}</Text>
+          <Button title='Pantry' onPress={() => setInPantry(!inPantry)} />
+          <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
           {/* Add form fields for editing item properties */}
-          <Button title="Save" onPress={EditItem} />
-          <Button title="Cancel" onPress={closeEditModal} />
+          <Button title='Save' onPress={EditItem} />
+          <Button title='Cancel' onPress={closeEditModal} />
         </View>
       </Modal>
     </View>
