@@ -6,7 +6,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
 2. [License References](#2-license-references)
 3. [Frameworks Used](#3-frameworks-used)
 4. [Libraries Used](#4-libraries-used)
-    1. [React-Native-Storage](#41-react-native-storage)
+    1. [React-Native-Async-Storage](#41-react-native-async-storage)
         1. [Installation](#411-installation)
         2. [Fixing Vulnerabilities](#412-fixing-vulnerabilities)
     2. [React-Native-DateTimePicker](#42-react-native-datetimepicker)
@@ -57,13 +57,12 @@ According to the terms of the MIT License, we must include the following referen
 npm install
 ```
 
-### 4.1. React-Native-Storage
-- [React-Native-Storage](https://github.com/sunnylqm/react-native-storage)
+### 4.1. React-Native-Async-Storage
+- [React-Native-Async-Storage](https://github.com/react-native-async-storage/async-storage)
 
 #### 4.1.1. Installation
 In the root of the project directory, you can run:
 ```bash
-npm install react-native-storage
 npm install @react-native-async-storage/async-storage
 ```
 
