@@ -8,4 +8,3 @@
 
 ## Documentation
 - [Documentation](Documentation/README.md)
-- [Licenses](Documentation/Licenses.md)
