@@ -4,24 +4,25 @@ This is intended to be a guide for ourselves to understand the how to use the li
 ## Table of Contents
 1. [File Information](#1-file-information)
 2. [License References](#2-license-references)
-3. [Frameworks Used](#3-frameworks-used)
-4. [Libraries Used](#4-libraries-used)
-    1. [React-Native-Async-Storage](#41-react-native-async-storage)
+3. [Frameworks and Tools Used](#3-frameworks-and-tools-used)
+4. [Modules & Libraries Used](#4-modules-and-libraries-used)
+    1. [Fixing Vulnerabilities](#41-fixing-vulnerabilities)
+    2. [React-Native-Firebase](#42-react-native-firebase)
         1. [Installation](#411-installation)
-        2. [Fixing Vulnerabilities](#412-fixing-vulnerabilities)
-    2. [React-Native-DateTimePicker](#42-react-native-datetimepicker)
-        1. [Installation](#421-installation)
-        2. [Fixing Vulnerabilities](#422-fixing-vulnerabilities)
-    3. [NP](#43-np)
+        2. [Setup](#412-setup)
+    3. [React-Native-DateTimePicker](#43-react-native-datetimepicker)
         1. [Installation](#431-installation)
-    4. [React-Native-Version](#44-react-native-version)
+    4. [NP](#43-np)
         1. [Installation](#441-installation)
-    5. [React-Navigation](#45-react-navigation)
+    5. [React-Native-Version](#45-react-native-version)
         1. [Installation](#451-installation)
-    6. [React-Native-Pager-View](#46-react-native-pager-view)
+    6. [React-Navigation](#46-react-navigation)
         1. [Installation](#461-installation)
-    7. [React-Native-Snackbar](#47-react-native-snackbar)
+    7. [React-Native-Pager-View](#47-react-native-pager-view)
         1. [Installation](#471-installation)
+    8. [React-Native-Snackbar](#48-react-native-snackbar)
+        1. [Installation](#481-installation)
+    9. [React-Native-Pager-View](#49-react-native-pager-view)
 5. [How to Run](#5-how-to-run)
     1. [Prerequisites](#51-prerequisites)
     2. [Install Dependencies](#52-install-dependencies)
@@ -35,7 +36,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
 - /PantryPal/HomeScreen.js - Contains buttons to navigate to screens
 - /PantryPal/App.tsx - Contains navigation stack to navigate screens
 - /PantryPal/SecondScreen.js - Will contain the pantry functionality
-- /PantryPal/Storage.ts - Contains the local storage functionality
+- /PantryPal/Storage.ts - Contains the firebase storage functionality
 - /PantryPal/AddItem.js - Contains the add pantry item functionality
 - /PantryPal/EditItem.js - Contains the edit pantry item functionality
 - /PantryPal/DeleteItem.js - Contains the delete pantry item functionality
@@ -45,29 +46,21 @@ This is intended to be a guide for ourselves to understand the how to use the li
 According to the terms of the MIT License, we must include the following references in the project:
 - [LICENSES](LICENSES.md)
 
-## 3. Frameworks Used
+## 3. Frameworks and Tools Used
+- [Firebase](https://firebase.google.com/)
 - [React](https://react.dev/)
 - [React-Native](https://reactnative.dev/)
 - [NodeJS](https://nodejs.org/en/)
 
-## 4. Libraries Used
-- All of the libraries used in this project are listed below. The links will take you to the GitHub page for each library.
+## 4. Modules and Libraries Used
+- All of the libraries used in this project are listed below. The links will take you to the GitHub, or the webpage for each library.
 - After each pull of the main branch, always make sure you run the following command in the root of the project directory to make sure you have all of the required libraries:
 ```bash
 npm install
 ```
 
-### 4.1. React-Native-Async-Storage
-- [React-Native-Async-Storage](https://github.com/react-native-async-storage/async-storage)
-
-#### 4.1.1. Installation
-In the root of the project directory, you can run:
-```bash
-npm install @react-native-async-storage/async-storage
-```
-
-#### 4.1.2. Fixing Vulnerabilities
-You may encounter the following error when you run the commands above:
+### 4.1. Fixing Vulnerabilities
+You may encounter vulnerabilities when installing packages. To fix these vulnerabilities, run the following command in the root of the project directory:
 ```bash
 4 vulnerabilities (1 high, 3 critical)
 
@@ -77,67 +70,78 @@ To address issues that do not require attention, run:
 To address all issues (including breaking changes), run:
   npm audit fix --force
 ```
-
 To fix this, run the following command:
 ```bash
 npm audit fix --force
 ```
 
-### 4.2. React Native DateTimePicker
-- [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
+### 4.2. React-Native-Firebase
+- [React-Native-Firebase](https://github.com/invertase/react-native-firebase)
 
 #### 4.2.1. Installation
+This requires several different packages to be installed.
+In the root of the project directory, you can run:
+```bash
+npm install --save @react-native-firebase/app
+npm install @react-native-firebase/firestore
+npm install @react-native-firebase/auth
+```
+
+### 4.3. React Native DateTimePicker
+- [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
+
+#### 4.3.1. Installation
 In the root of the project directory, you can run:
 ```bash
 npm install @react-native-community/datetimepicker --save
 ```
 
-### 4.3. NP
+### 4.4. NP
 - [NP](https://github.com/sindresorhus/np)
 
-#### 4.3.1. Installation
+#### 4.4.1. Installation
 In the root of the project directory, you can run:
 ```bash
 npm install --global np
 ```
 
-### 4.4 React-Native-Version
+### 4.5 React Native Version
 - [React-Native-Version](https://github.com/stovmascript/react-native-version)
 
-#### 4.4.1 Installation
+#### 4.5.1 Installation
 In the root of the project directory, you can run:
 ```bash
 $ npm install react-native-version --save-dev
 ```
 
-### 4.5 React-Navigation
+### 4.6 React Navigation
 - [React-Navigation](https://reactnavigation.org/docs/getting-started)
 
-#### 4.5.1 Installation
+#### 4.6.1 Installation
 In the root of the project directory, you can run:
 ```bash
 npm install @react-navigation/material-top-tabs
 ```
 
-### 4.6 React-Native-Pager-View
+### 4.7 React Native Pager-View
 - [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
 
-#### 4.6.1 Installation
+#### 4.7.1 Installation
 In the root of the project directory, you can run:
 ```bash
-npm i react-native-pager-view
+npm install react-native-pager-view
 ```
 
-### 4.7 React-Native-Snackbar
+### 4.8 React Native Snackbar
 - [React-Native-Snackbar](https://github.com/cooperka/react-native-snackbar/tree/main)
 
-#### 4.7.1 Installation
+#### 4.8.1 Installation
 In the root of the project directory, you can run:
 ```bash
 npm install react-native-snackbar --save
 ```
 
-### 4.6 React-Native-Pager-View
+### 4.9 React-Native-Pager-View
 - [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
 
 ## 5. How to Run
