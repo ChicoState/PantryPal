@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
+import italyImage from './Images/italy.jpg';
 
 // Implements the grocery list functionality
 
@@ -36,7 +37,7 @@ const GroceryList = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('./Images/italy.jpg')}
+      source={italyImage}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

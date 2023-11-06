@@ -1,371 +1,423 @@
-// File: PantryPal/Storage.ts
-// Description: Storage functions for PantryPal
-
-// Currently only supports local storage
-// TODO: Add support for cloud storage, like Firebase or AWS
+/*
+ * File: PantryPal/Storage.ts
+ * Description: Firebase Firestore Cloud storage functions for PantryPal
+ * Documentation: https://rnfirebase.io/firestore/usage
+ */
 
 // Necessary imports
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
-// Create storage object
-const storage = new Storage({
-  // Set maximum capacity of storage
-  // Default is 1000 items
-  size: 1000,
-
-  // Set storage engine
-  // Currently only supports AsyncStorage
-  storageBackend: AsyncStorage,
-
-  // Set expiration time of data in storage
-  // Default is 1 day (1000 * 3600 * 24 milliseconds)
-  // Set to null to disable expiration
-  defaultExpires: null,
-
-  // Cache data in memory, default is true
-  enableCache: true,
-
-  // If data is not found in storage,
-  // return the corresponding sync method if specified
-  sync: {
-    // We"ll leave this blank for now
-  },
-});
-// I"m not sure if we need to export this, but I"m going to for now
-// I"m pretty sure that we can just use the storage object we created above and just call the methods on it
-export default storage;
+const pantry = 'Pantry';
 
 // Various Error Handlers
-// Error for saving the list of items
-export class PantrySaveListError extends Error {
+// Error for adding an item
+export class addItemError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'PantrySaveError';
-  }
-}
-
-// Error for loading the list of items in the pantry
-export class PantryLoadKeysError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'PantryLoadKeysError';
+    this.name = 'addItemError';
   }
 }
 
 // Error for deleting an item
-export class PantryDeleteError extends Error {
+export class deleteItemError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ItemDeleteError';
+    this.name = 'deleteItemError';
   }
 }
 
-// Error for updating an individual item
-export class PantryUpdateError extends Error {
+// Error for loading an item
+export class loadItemError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ItemUpdateError';
+    this.name = 'loadItemError';
   }
 }
 
-// Error for loading an individual item
-export class PantryLoadItemError extends Error {
+// Error for loading all the items in our pantry
+export class loadPantryDataError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'PantryLoadItemError';
+    this.name = 'loadPantryDataError';
+  }
+}
+// Error for loading the keys of all the items in our pantry
+export class loadPantryCollectionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'loadKeysError';
   }
 }
 
-export class ShoppingListLoadError extends Error {
+// No data error
+export class noItemOrDataError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ShoppingListLoadError';
+    this.name = 'noDataError';
   }
 }
 
-// Loading Functions
-// Get the keys of all the items in our pantry from storage
-export const loadPantryKeys = async () => {
-  try {
-    const keys = await AsyncStorage.getAllKeys();
-    return keys;
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is no data
-    // throw new PantryLoadKeysError('Failed to load pantry: ' + error);
-    return [];
+// Error for parsing data
+export class parseDataError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'parseDataError';
   }
-};
+}
 
-export const loadPantry = async () => {
-  try {
-    // Get the keys of the items in storage
-    const keys = await AsyncStorage.getAllKeys();
-    // Filter out the keys that are not in our pantry
-    return keys;
-    // return pantryKeys;
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Return nothing if there is no data or an error
-    return [];
+// Error for updating the purchase date of an item
+export class updateDatePurchasedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateDatePurchasedError';
   }
-};
+}
 
-// Get the keys of the items only on our shopping list from storage
-export const loadShoppingList = async () => {
-  try {
-    // Get the keys of the items in storage
-    const keys = await AsyncStorage.getAllKeys();
-    // Filter out the keys that are not on our shopping list
-    const shoppingListKeys = [];
-    // Check if the item is on our shopping list
-    for (const key of keys) {
-      const data = await loadItem(key);
-      if (data.shoppingList) {
-        shoppingListKeys.push(key);
-      }
-    }
-    return shoppingListKeys;
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is no data
-    throw new ShoppingListLoadError('Failed to load shopping list: ' + error);
+// Error for updating the expiration date of an item
+export class updateExpirationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateExpirationError';
   }
-};
+}
 
+// Error for updating an item
+export class updateItemError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateItemError';
+  }
+}
+
+// Error for updating the location of an item
+export class updateLocationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateLocationError';
+  }
+}
+
+// Error for updating the name of an item
+export class updateNameError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateNameError';
+  }
+}
+
+// Error for updating the quantity of an item
+export class updateQuantityError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateQuantityError';
+  }
+}
+
+// Storage Functions
 /*
- * Save an item in our pantry to storage
- * @param key - This should be the name of the item, ie "milk", "eggs", etc, no underscores are allowed
- * @param name - name of item, should be the same as key
+ * Add a item to our pantry
+ * @param name - name of the item, i.e. "milk", "eggs", etc
  * @param datePurchased - date the item was purchased
+ * @param expiration - expiration date of item
  * @param quantity - quantity of item
  * @param freezer - if the item is in the freezer
  * @param fridge - if the item is in the fridge
- * @param pantry - if the item is in the pantry
- * @param expiration - expiration date of item
- * @param onList - if the item is on the shopping list
- * @param purchasedItem - if the item is on the shopping list and has been purchased
- * @param expires - expiration time of data in storage, we are going to set this to null for now
+ * @param inPantry - if the item is in the pantry
  */
-export const saveItem = async (
-  key: string,
-  datePurchased: Date,
-  quantity: Number,
+export const addItem = async (
+  name: string,
+  datePurchased: string,
+  expiration: string,
+  quantity: number,
   fridge: Boolean,
   freezer: Boolean,
-  pantry: Boolean,
-  expiration: Date,
-  onList: Boolean,
-  purchasedItem: Boolean,
   inPantry: Boolean,
-  expires = null,
 ) => {
+  // Create an object to store the data
+  const itemData = {
+    // Date purchased, convert it to an ISO string
+    datePurchased: datePurchased,
+    // Expiration date, convert it to an ISO string
+    expiration: expiration,
+    // Quantity of item
+    quantity: quantity,
+    // If the item is in the refrigerator
+    fridge: fridge,
+    // If the item is in the freezer
+    freezer: freezer,
+    // If the item is in the pantry
+    pantry: inPantry,
+  };
+
+  // Try to save the item to the storage
   try {
-    await storage.save({
-      key: key,
-      // Set the data we want to store
-      // nameInStorage: data
-      data: {
-        // Item name
-        name: key,
-        // Date purchased
-        whenPurchased: datePurchased,
-        // Quantity of item
-        amount: quantity,
-        // If the item is in the refrigerator
-        fridge: fridge,
-        // If the item is in the freezer
-        freezer: freezer,
-        // If the item is in the pantry
-        pantry: pantry,
-        // Date of expiration
-        expiration: expiration,
-        // If the item is on the shopping list
-        // shoppingList: onList,
-        // If the item is on the shopping list has been purchased
-        // purchasedOnList: purchasedItem,
-      },
-      expires: expires,
-    });
+    await firestore().collection(pantry).doc(name).set(itemData);
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
     // Throw an error if we fail to save the data
-    throw new PantrySaveListError('Failed to save item: ' + error);
+    throw new addItemError('Failed to add item: ' + error);
   }
 };
 
-// Load an item in our pantry from storage
-/// @param key - This should be the name of the item, ie "milk", "eggs", etc, no underscores are allowed
-export const loadItem = async (key: string) => {
+/*
+ * Delete an item from our pantry
+ * @param name - This should be the name of the item, ie "milk", "eggs", etc
+ */
+export const deleteItem = async (name: string) => {
   try {
-    const data = await storage.load({
-      key: key,
-    });
-    return data;
+    // Delete the item from storage
+    await firestore().collection(pantry).doc(name).delete();
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is no data
-    throw new PantryLoadItemError('Failed to load item: ' + error);
+    // Throw an error if we fail to save the data
+    throw new deleteItemError('Failed to delete item: ' + error);
   }
 };
 
-// Delete the items in our pantry from storage
-/// @param key - This should be the name of the item, ie "milk", "eggs", etc
-export const deleteItem = async (key: string) => {
-  try {
-    await storage.remove({
-      key: key,
-    });
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is an issue
-    return new PantryDeleteError('Failed to delete item: ' + error);
-  }
-};
-
-// Update methods for individual data points
-// Update the purchase date of an item
-export const updateDatePurchased = async (key: string, datePurchased: Date) => {
-  try {
-    await storage.save({
-      key: key,
-      data: {
-        whenPurchased: datePurchased,
-      },
-    });
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is  an issue
-    throw new PantryUpdateError(
-      'Failed to update items purchase date: ' + error,
-    );
-  }
-};
-
-// Update the quantity of an item
-export const updateQuantity = async (key: string, quantity: Number) => {
-  try {
-    await storage.save({
-      key: key,
-      data: {
-        amount: quantity,
-      },
-    });
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is an issue
-    throw new PantryUpdateError('Failed to update items quantity: ' + error);
-  }
-};
-
-// Update the location of an item
-export const updateLocation = async (
-  key: string,
+/*
+ * Update the entire item
+ * @param name - name of the item, i.e. "milk", "eggs", etc
+ * @param datePurchased - date the item was purchased
+ * @param expiration - expiration date of item
+ * @param quantity - quantity of item
+ * @param freezer - if the item is in the freezer
+ * @param fridge - if the item is in the fridge
+ * @param inPantry - if the item is in the pantry
+ */
+export const editItem = async (
+  name: string,
+  datePurchased: string,
+  expiration: string,
+  quantity: number,
   fridge: Boolean,
   freezer: Boolean,
-  pantry: Boolean,
+  inPantry: Boolean,
 ) => {
   try {
-    await storage.save({
-      key: key,
-      data: {
-        fridge: fridge,
-        freezer: freezer,
-        pantry: pantry,
-      },
-    });
+    // Update the item's data
+    const itemData = {
+      // Date purchased, convert it to an ISO string
+      datePurchased: datePurchased,
+      // Expiration date, convert it to an ISO string
+      expiration: expiration,
+      // Quantity of item
+      quantity: quantity,
+      // If the item is in the refrigerator
+      fridge: fridge,
+      // If the item is in the freezer
+      freezer: freezer,
+      // If the item is in the pantry
+      pantry: inPantry,
+    };
+    // Update the item
+    await firestore().collection(pantry).doc(name).set(itemData);
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is an issue
-    throw new PantryUpdateError('Failed to update items location: ' + error);
+    throw new updateItemError('Failed to update item: ' + error);
   }
 };
 
-// Update the expiration date of an item
-export const updateExpiration = async (key: string, expiration: Date) => {
+/*
+ * Load an item in our pantry from storage
+ * @param name - name of the item, ie "milk", "eggs", etc, no underscores are allowed
+ */
+export const loadItem = async (name: string) => {
   try {
-    await storage.save({
-      key: key,
-      data: {
-        expires: expiration,
-      },
-    });
+    // Get the item from storage using the name
+    const itemDoc = await firestore().collection(pantry).doc(name).get();
+    // If the item exists
+    if (itemDoc.exists) {
+      // Get the data from the item
+      const itemData = itemDoc.data();
+      // If there is data
+      if (itemData) {
+        // Convert the date ISO strings back to Date objects
+        itemData.datePurchased = new Date(itemData.datePurchased);
+        itemData.expiration = new Date(itemData.expiration);
+        // Return the data
+        return itemData;
+      }
+      // If there is no data, return null
+      return null;
+    }
+    // If the item doesn't exist, return null
+    return null;
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is no data
-    throw new PantryUpdateError(
-      'Failed to update items expiration date: ' + error,
+    throw new loadItemError('Failed to load item: ' + error);
+  }
+};
+
+// Load all the items in our pantry from storage
+export const loadPantryData = async () => {
+  try {
+    // Grab all the documents in the collection
+    const itemsQuerySnapshot = await firestore().collection(pantry).get();
+    // If there are no documents, return null
+    if (itemsQuerySnapshot.empty) {
+      return null;
+    }
+    // If there are documents, convert the ISO strings back to Date objects
+    const allStoredData = itemsQuerySnapshot.docs.map(doc => {
+      const itemData = doc.data();
+      itemData.datePurchased = new Date(itemData.datePurchased);
+      itemData.expiration = new Date(itemData.expiration);
+      return {key: doc.id, itemData};
+    });
+    // Return the data
+    return allStoredData;
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    throw new loadPantryDataError('Failed to pantry data: ' + error);
+  }
+};
+
+// Load the names of all the items in our pantry
+export const loadPantryKeys = async () => {
+  try {
+    const itemsQuerySnapshot = await firestore().collection(pantry).get();
+    // If there are no documents, return null
+    if (itemsQuerySnapshot.empty) {
+      return null;
+    }
+    // If there are documents, return the ids
+    return itemsQuerySnapshot.docs.map(doc => doc.id);
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    throw new loadPantryCollectionError(
+      'Failed to load pantry items: ' + error,
     );
   }
 };
 
-// Update the shopping list status of an item
-export const updateOnList = async (key: string, onList: Boolean) => {
-  try {
-    await storage.save({
-      key: key,
-      data: {
-        shoppingList: onList,
-      },
-    });
-  } catch (error) {
-    // This is for debugging purposes
-    console.log(error);
-    // Throw an error if there is no data
-    throw new PantryUpdateError(
-      'Failed to update items shopping list status: ' + error,
-    );
-  }
-};
-
-// Update if the item was purchased on the shopping list
-export const updatePurchasedOnList = async (
-  key: string,
-  purchased: Boolean,
+// Update methods for items
+/*
+ * Update the purchase date of an item
+ * @param name - name of the item, ie "milk", "eggs", etc
+ * @param datePurchased - date the item was purchased
+ */
+export const updateDatePurchased = async (
+  name: string,
+  datePurchased: Date,
 ) => {
   try {
-    await storage.save({
-      key: key,
-      data: {
-        purchasedOnList: purchased,
-      },
+    const datePurchasedString = datePurchased.toISOString();
+    await firestore().collection(pantry).doc(name).update({
+      datePurchased: datePurchasedString,
     });
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is no data
-    throw new PantryUpdateError(
-      'Failed to update items purchased on list status: ' + error,
+    throw new updateDatePurchasedError(
+      'Failed to update date purchased: ' + error,
     );
   }
 };
 
-// Update if the item is in our pantry
-export const updateInPantry = async (key: string, inPantry: Boolean) => {
+/*
+ * Update the expiration date of an item
+ * @param name - name of the item, ie "milk", "eggs", etc
+ * @param expiration - expiration date of item
+ */
+export const updateExpiration = async (name: string, expiration: Date) => {
   try {
-    await storage.save({
-      key: key,
-      data: {
-        inPantry: inPantry,
-      },
+    const expirationString = expiration.toISOString();
+    await firestore().collection(pantry).doc(name).update({
+      expiration: expirationString,
     });
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
-    // Throw an error if there is no data
-    throw new PantryUpdateError(
-      'Failed to update items in pantry status: ' + error,
+    throw new updateExpirationError(
+      'Failed to update expiration date: ' + error,
     );
+  }
+};
+
+/*
+ * Update the location of an item
+ * @param name - name of the item, ie "milk", "eggs", etc
+ * @param fridge - if the item is in the fridge
+ * @param freezer - if the item is in the freezer
+ * @param pantry - if the item is in the pantry
+ */
+export const updateLocation = async (
+  name: string,
+  fridge: Boolean,
+  freezer: Boolean,
+  inPantry: Boolean,
+) => {
+  try {
+    await firestore().collection(pantry).doc(name).update({
+      fridge: fridge,
+      freezer: freezer,
+      pantry: inPantry,
+    });
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    throw new updateLocationError('Failed to update location: ' + error);
+  }
+};
+
+/*
+ * Update the name of an item
+ * @param name - current name of the item, ie "milk", "eggs", etc
+ * @param newName - new name of the item
+ */
+export const updateName = async (name: string, newName: string) => {
+  try {
+    // Run a transaction to update the name
+    // This ensures that both the update and delete operations happen atomically, providing data consistency.
+    await firestore().runTransaction(async transaction => {
+      // Get a reference to the old item and the new item
+      const oldItemRef = firestore().collection(pantry).doc(name);
+      const newItemRef = firestore().collection(pantry).doc(newName);
+
+      // Get the old item's data
+      const oldItemSnapshot = await transaction.get(oldItemRef);
+      if (!oldItemSnapshot.exists) {
+        throw new updateNameError('Item does not exist: ' + name);
+      }
+
+      // Create a snapshot of the old item's data
+      const itemData = oldItemSnapshot.data();
+
+      // Create a new item with the new name
+      const newItemData = {
+        ...itemData,
+      };
+
+      // Set the new item and delete the old item
+      transaction.set(newItemRef, newItemData);
+      transaction.delete(oldItemRef);
+    });
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    throw new updateNameError('Failed to update name: ' + error);
+  }
+};
+
+/*
+ * Update the quantity of an item
+ * @param name - Current name of the item, ie "milk", "eggs", etc
+ * @param quantity - quantity of item
+ */
+export const updateQuantity = async (name: string, quantity: number) => {
+  try {
+    await firestore().collection(pantry).doc(name).update({
+      quantity: quantity,
+    });
+  } catch (error) {
+    // This is for debugging purposes
+    console.log(error);
+    throw new updateQuantityError('Failed to update quantity: ' + error);
   }
 };

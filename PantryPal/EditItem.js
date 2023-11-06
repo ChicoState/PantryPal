@@ -4,67 +4,43 @@ import {
   Text,
   FlatList,
   Button,
-  StyleSheet,
   Modal,
   TouchableOpacity,
   TextInput,
+  ImageBackground,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // This is the local storage methods
 import {
-  storage,
-  loadPantry,
-  loadPantryKeys,
-  loadItem,
-  updateDatePurchased,
-  updateQuantity,
-  updateLocation,
-  updateExpirationDate,
-  updateBestBy,
-  updateExpiration,
-  PantryLoadListError,
-  PantryLoadItemError,
-  PantryLoadKeysError
-  
+  editItem,  
 } from './Storage.ts';
+// This is for the route
+import { useRoute } from '@react-navigation/native';
+// This is the snackbar
+import Snackbar from 'react-native-snackbar';
+// Import the styles
+import styles from './Styles.js';
+// Load the background image
+import image from './Images/pantryimage.jpg';
 
-const EditItem = ({navigation}) => {
-  const[name, setName] = useState('');
-  const[quantity, setQuantity] = useState('');
-  const[datePurchased, setDatePurchased] = useState(new Date());
-  const[expirationDate, setExpirationDate] = useState(new Date());
-  const[inRefrigerator, setInRefrigerator] = useState(false);
-  const[inFreezer, setInFreezer] = useState(false);
-  const[inPantry, setInPantry] = useState(false);
+const EditItem = ({route}) => {
+  // This the route to the item
+  // const route = useRoute();
+  // This is the item to edit
+  const { item } = route.params?.data;
+
+  // These are the states for the input fields
+  const[quantity, setQuantity] = useState(0);
+  const[datePurchased, setDatePurchased] = useState(item.itemData.datePurchased);
+  const[expirationDate, setExpirationDate] = useState(item.itemData.expirationDate);
+  const[inRefrigerator, setInRefrigerator] = useState(item.itemData.inRefrigerator);
+  const[inFreezer, setInFreezer] = useState(item.itemData.inFreezer);
+  const[inPantry, setInPantry] = useState(item.itemData.inPantry);
   const[errorMessage, setErrorMessage] = useState('');
   const[showDatePicker, setShowDatePicker] = useState(false);
   const[pantryData, setPantryData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
-
-  // Text input validation
-  const validateName = (inputText) => {
-    if (inputText.trim() === '') {
-      Snackbar.show({
-        text: 'Please enter an item',
-        duration: Snackbar.LENGTH_SHORT,
-      });
-      setErrorMessage('No item entered');
-      setName('');
-    }
-    else if (inputText.includes('_')) {
-      Snackbar.show({
-        text: 'Item name cannot contain underscores',
-        duration: Snackbar.LENGTH_SHORT,
-      });
-      setErrorMessage('Item name contains underscores');
-      setText('');
-    }
-    else {
-      setErrorMessage('');
-      setName(inputText);
-    }
-  }
 
   const openEditModal = (item) => {
     setSelectedItem(item);
@@ -83,154 +59,130 @@ const EditItem = ({navigation}) => {
     setEditModalVisible(false);
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative', // Add this to allow absolute positioning
-    },
-    textBox: {
-      borderWidth: 2,
-      borderColor: 'black',
-      height: 40,
-      width: 200,
-      padding: 8,
-      marginVertical: 10,
-    },
-    textBox2: {
-      borderWidth: 2,
-      borderColor: 'black',
-      height: 40,
-      width: 200,
-      padding: 8,
-      marginVertical: 10,
-      marginBottom: 10,
-    },
-    title: {
-      fontSize: 40,
-      position: 'absolute', // Position the title at the top
-      textAlign: 'center',
-      marginTop: 0,
-      marginBottom: 20,
-      top: 20, // Adjust as needed for vertical positioning
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'orange', // Change to your desired color
-      fontWeight: 'bold',
-      borderWidth: 5, // Add a border
-      borderColor: 'orange', // Border color
-      borderRadius: 10, // Border radius
-      padding: 10, // Padding inside the border
-      backgroundColor: 'powderblue',
-    },
-    text: {
-      fontSize: 24,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
-    },
-    status: {
-      fontSize: 14,
-      fontFamily: 'Trebuchet MS', // Change to your desired font
-      color: 'black', // Change to your desired color
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-  });
+  const editItem = async () => {
+    try {
+      await editItem(
+        name,
+        datePurchased.toString(),
+        expirationDate.toString(),
+        quantity,
+        inRefrigerator,
+        inFreezer,
+        inPantry,
+      );
+      Snackbar.show({
+        text: 'Item edited successfully',
+        duration: Snackbar.LENGTH_LONG,
+      });
+    } catch (error) {
+      setErrorMessage(error.message);
+      // Show the error on the snackbar
+      Snackbar.show({
+        text: errorMessage,
+        duration: Snackbar.LENGTH_LONG,
+      });
+    }
+  }
 
+  // This is to handle the incoming data from the route
   useEffect(() => {
-    // Load the pantry data from local storage
-    const loadData = async () => {
-      try {
-        const pantryKeys = await loadPantryKeys();
-        const loadedDataPromises = pantryKeys.map((key) => loadItem(key));
-        const loadedData = await Promise.all(loadedDataPromises);
-        setPantryData(loadedData);
-      } catch (error) {
-        console.error('Failed to load pantry data:', error);
-        throw new PantryLoadKeysError('Failed to load pantry keys' + error);
-      }
-    };
-
-    loadData();
-  }, []);
+    if (route.params?.item) {
+      setSelectedItem(route.params.item);
+    }
+  }, [route.params?.item]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => openEditModal(item)}>
-      <Text>Item: {item.name}</Text>
-      <Text>Quantity: {item.quantity}</Text>
-      <Text>Date Purchased: {item.whenPurchased.toDateString()}</Text>
-      <Text>Expiration Date: {item.expiration.toDateString()}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.text2}>Name: {item.key}</Text>
+        <Text style={styles.text3}>     Quantity: {item.quantity}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text3}>Date Purchased: {item.datePurchased}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text3}>Expiration Date: {item.expiration}</Text>
+      </View>
+      <View style={styles.textContainer2}>
+        <Text style={styles.text3}>Location of {item.key}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text3}>Refrigerator: {item.itemData.fridge ? 'Yes' : 'No'}</Text>
+        <Text style={styles.text3}>     Freezer: {item.itemData.freezer ? 'Yes' : 'No'}</Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text3}>Pantry: {item.itemData.pantry ? 'Yes' : 'No'}</Text>
+      </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style = {styles.container}>
-      {pantryData.length === 0 ? (
-        <><Text style={styles.text}>Your pantry is empty!</Text>
-        <Text style={styles.text}>Add some items!</Text></>
-      ) : (
+    <ImageBackground
+      source={image}
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
+      <View style = {styles.container}>
         <FlatList
           data={pantryData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item.key}
         />
-      )}
 
-      {/* Edit Item Modal */}
-      <Modal visible={isEditModalVisible}>
-        <View>
-          <Text style={styles.text}>Editing Item: {selectedItem?.key}</Text>
-          <TextInput
-            keyboardType='numeric'
-            placeholder='Enter a Quantity'
-            onChangeText={setQuantity}
-            value={quantity}
-            maxLength={5}
-            style={styles.textBox2}
-          />
-          <Button title='Select Date Purchased' onPress={showDatepicker} />
-          <Text style={styles.status}>Date Purchased: {datePurchased.toDateString()}</Text>
-          {showDatePicker && (
-            <DateTimePicker
-              value={datePurchased}
-              mode='date'
-              display='default'
-              onChange={(_, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  setDatePurchased(selectedDate);
-                }
-              }}
+        {/* Edit Item Modal */}
+        <Modal visible={isEditModalVisible}>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Editing Item: {selectedItem.key}</Text>
+            <TextInput
+              keyboardType='numeric'
+              placeholder='Enter a Quantity'
+              onChangeText={setQuantity}
+              value={quantity}
+              maxLength={5}
+              style={styles.textBox2}
             />
-          )}
-          <Button title='Select Expiration' onPress={showDatepicker} />
-          <Text style={styles.status}>Expires: {expirationDate.toDateString()}</Text>
-          {showDatePicker && (
-            <DateTimePicker
-              value={expirationDate}
-              mode='date'
-              display='default'
-              onChange={(_, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  setExpirationDate(selectedDate);
-                }
-              }}
-            />
-          )}
-          <Button title='In Refrigerator' onPress={() => setInRefrigerator(!inRefrigerator)} />
-          <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? 'Yes' : 'No'}</Text>
-          <Button title='Freezer' onPress={() => setInFreezer(!inFreezer)} />
-          <Text style={styles.status}>In Freezer?: {inFreezer ? 'Yes' : 'No'}</Text>
-          <Button title='Pantry' onPress={() => setInPantry(!inPantry)} />
-          <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
-          {/* Add form fields for editing item properties */}
-          <Button title='Save' onPress={EditItem} />
-          <Button title='Cancel' onPress={closeEditModal} />
-        </View>
-      </Modal>
-    </View>
+            <Button title='Select Date Purchased' onPress={showDatepicker} />
+            <Text style={styles.status}>Date Purchased: {datePurchased.toDateString()}</Text>
+            {showDatePicker && (
+              <DateTimePicker
+                value={datePurchased}
+                mode='date'
+                display='default'
+                onChange={(_, selectedDate) => {
+                  setShowDatePicker(false);
+                  if (selectedDate) {
+                    setDatePurchased(new Date(selectedDate));
+                  }
+                }}
+              />
+            )}
+            <Button title='Select Expiration' onPress={showDatepicker} />
+            <Text style={styles.status}>Expires: {expirationDate.toDateString()}</Text>
+            {showDatePicker && (
+              <DateTimePicker
+                value={expirationDate}
+                mode='date'
+                display='default'
+                onChange={(_, selectedDate) => {
+                  setShowDatePicker(false);
+                  if (selectedDate) {
+                    setExpirationDate(new Date(selectedDate));
+                  }
+                }}
+              />
+            )}
+            <Button title='In Refrigerator' onPress={() => setInRefrigerator(!inRefrigerator)} />
+            <Text style={styles.status}>In Refrigerator?: {inRefrigerator ? 'Yes' : 'No'}</Text>
+            <Button title='Freezer' onPress={() => setInFreezer(!inFreezer)} />
+            <Text style={styles.status}>In Freezer?: {inFreezer ? 'Yes' : 'No'}</Text>
+            <Button title='Pantry' onPress={() => setInPantry(!inPantry)} />
+            <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
+            {/* Add form fields for editing item properties */}
+            <Button title='Save' onPress={editItem} />
+            <Button title='Cancel' onPress={closeEditModal} />
+          </View>
+        </Modal>
+      </View>
+    </ImageBackground>
   );
 }
 
