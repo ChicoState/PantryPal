@@ -20,6 +20,7 @@ import Snackbar from "react-native-snackbar";
 import {
   loadPantryData,
   deleteItem,
+  editItem,
 } from './Storage.ts';
 // Import the styles
 import styles from './Styles.js';
@@ -53,7 +54,6 @@ const SecondScreen = ({navigation}) => {
   const [inPantry, setInPantry] = useState(false);
   const[errorMessage, setErrorMessage] = useState('');
   const[showDatePicker, setShowDatePicker] = useState(false);
-  const[editItem, setEditItem] = useState(null);
 
   // This is to fetch the pantry data from the firebase
   const fetchData = async () => {
@@ -72,6 +72,31 @@ const SecondScreen = ({navigation}) => {
   const closeEditModal = () => {
     setEditModalVisible(false);
   };
+
+  const updateItem = async () => {
+    try {
+      await editItem(
+        name,
+        datePurchased.toString(),
+        expirationDate.toString(),
+        quantity,
+        inRefrigerator,
+        inFreezer,
+        inPantry,
+      );
+      Snackbar.show({
+        text: 'Item edited successfully',
+        duration: Snackbar.LENGTH_LONG,
+      });
+    } catch (error) {
+      setErrorMessage(error.message);
+      // Show the error on the snackbar
+      Snackbar.show({
+        text: errorMessage,
+        duration: Snackbar.LENGTH_LONG,
+      });
+    }
+  }
 
   // This loads the pantry data from local storage
   useEffect(() => {
@@ -107,12 +132,8 @@ const SecondScreen = ({navigation}) => {
           color = 'darkorange'
           style={styles.editButton}
           onPress={() => {
-            setName(item.key);
-            setQuantity(item.itemData.quantity);
-            setDatePurchased(new Date(item.itemData.datePurchased));
-            setExpirationDate(new Date(item.itemData.expiration));
-            setInRefrigerator(item.itemData.fridge);
-            setInFreezer(item.itemData.freezer);
+            setSelectedItem(item);
+            // openEditModal();
           }}
         />
         <Text>          </Text>
@@ -195,8 +216,8 @@ const SecondScreen = ({navigation}) => {
         transparent={true}
         visible={isEditModalVisible}
       >
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Editing Item: {name}</Text>
+        <View style={styles.modalContainer}>
+          <Text style={styles.text}>Editing Item</Text>
           <TextInput
             keyboardType='numeric'
             placeholder='Enter a Quantity'
@@ -242,7 +263,8 @@ const SecondScreen = ({navigation}) => {
           <Button title='Pantry' onPress={() => setInPantry(!inPantry)} />
           <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
           {/* Add form fields for editing item properties */}
-          <Button title='Save' onPress={editItem} />
+          <Button title='Save' onPress={updateItem} />
+          <Text>     </Text>
           <Button title='Cancel' onPress={closeEditModal} />
         </View>
       </Modal>

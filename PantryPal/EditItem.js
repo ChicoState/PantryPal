@@ -23,9 +23,9 @@ import styles from './Styles.js';
 // Load the background image
 import image from './Images/pantryimage.jpg';
 
-const EditItem = ({route}) => {
+const EditItem = ({navigator}) => {
   // This the route to the item
-  // const route = useRoute();
+  const route = useRoute();
   // This is the item to edit
   const { item } = route.params?.data;
 
@@ -59,7 +59,7 @@ const EditItem = ({route}) => {
     setEditModalVisible(false);
   }
 
-  const editItem = async () => {
+  const updateItem = async () => {
     try {
       await editItem(
         name,
@@ -178,6 +178,7 @@ const EditItem = ({route}) => {
             <Text style={styles.status}>In Pantry: {inPantry ? 'Yes' : 'No'}</Text>
             {/* Add form fields for editing item properties */}
             <Button title='Save' onPress={editItem} />
+            <Text>     </Text>
             <Button title='Cancel' onPress={closeEditModal} />
           </View>
         </Modal>
