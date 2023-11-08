@@ -1,6 +1,6 @@
 /*
  * File: PantryPal/Storage.ts
- * Description: Firebase Firestore Cloud storage functions for PantryPal
+ * Description: Firebase Firestore Cloud Database storage functions for PantryPal
  * Documentation: https://rnfirebase.io/firestore/usage
  */
 
@@ -8,110 +8,6 @@
 import firestore from '@react-native-firebase/firestore';
 
 const pantry = 'Pantry';
-
-// Various Error Handlers
-// Error for adding an item
-export class addItemError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'addItemError';
-  }
-}
-
-// Error for deleting an item
-export class deleteItemError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'deleteItemError';
-  }
-}
-
-// Error for loading an item
-export class loadItemError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'loadItemError';
-  }
-}
-
-// Error for loading all the items in our pantry
-export class loadPantryDataError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'loadPantryDataError';
-  }
-}
-// Error for loading the keys of all the items in our pantry
-export class loadPantryCollectionError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'loadKeysError';
-  }
-}
-
-// No data error
-export class noItemOrDataError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'noDataError';
-  }
-}
-
-// Error for parsing data
-export class parseDataError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'parseDataError';
-  }
-}
-
-// Error for updating the purchase date of an item
-export class updateDatePurchasedError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateDatePurchasedError';
-  }
-}
-
-// Error for updating the expiration date of an item
-export class updateExpirationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateExpirationError';
-  }
-}
-
-// Error for updating an item
-export class updateItemError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateItemError';
-  }
-}
-
-// Error for updating the location of an item
-export class updateLocationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateLocationError';
-  }
-}
-
-// Error for updating the name of an item
-export class updateNameError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateNameError';
-  }
-}
-
-// Error for updating the quantity of an item
-export class updateQuantityError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'updateQuantityError';
-  }
-}
 
 // Storage Functions
 /*
@@ -135,9 +31,9 @@ export const addItem = async (
 ) => {
   // Create an object to store the data
   const itemData = {
-    // Date purchased, convert it to an ISO string
+    // Date purchased
     datePurchased: datePurchased,
-    // Expiration date, convert it to an ISO string
+    // Expiration date
     expiration: expiration,
     // Quantity of item
     quantity: quantity,
@@ -234,7 +130,7 @@ export const loadItem = async (name: string) => {
       const itemData = itemDoc.data();
       // If there is data
       if (itemData) {
-        // Convert the date ISO strings back to Date objects
+        // Convert the date strings back to Date objects
         itemData.datePurchased = new Date(itemData.datePurchased);
         itemData.expiration = new Date(itemData.expiration);
         // Return the data
@@ -421,3 +317,107 @@ export const updateQuantity = async (name: string, quantity: number) => {
     throw new updateQuantityError('Failed to update quantity: ' + error);
   }
 };
+
+// Various Error Handlers for Storage Functions
+// Error for adding an item
+export class addItemError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'addItemError';
+  }
+}
+
+// Error for deleting an item
+export class deleteItemError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'deleteItemError';
+  }
+}
+
+// Error for loading an item
+export class loadItemError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'loadItemError';
+  }
+}
+
+// Error for loading all the items in our pantry
+export class loadPantryDataError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'loadPantryDataError';
+  }
+}
+// Error for loading the keys of all the items in our pantry
+export class loadPantryCollectionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'loadKeysError';
+  }
+}
+
+// No data error
+export class noItemOrDataError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'noDataError';
+  }
+}
+
+// Error for parsing data
+export class parseDataError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'parseDataError';
+  }
+}
+
+// Error for updating the purchase date of an item
+export class updateDatePurchasedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateDatePurchasedError';
+  }
+}
+
+// Error for updating the expiration date of an item
+export class updateExpirationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateExpirationError';
+  }
+}
+
+// Error for updating an item
+export class updateItemError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateItemError';
+  }
+}
+
+// Error for updating the location of an item
+export class updateLocationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateLocationError';
+  }
+}
+
+// Error for updating the name of an item
+export class updateNameError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateNameError';
+  }
+}
+
+// Error for updating the quantity of an item
+export class updateQuantityError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'updateQuantityError';
+  }
+}
