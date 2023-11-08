@@ -48,7 +48,7 @@ const Pantry = ({navigation}) => {
   // This is for the state of the delete confirmation modal
   const [isDialogVisible, setIsDialogVisible] = useState(false); 
   // This is the state for the selected item
-  const [item, setItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   // This is the state for the refreshing
   const [refreshing, setRefreshing] = useState(false);
   
@@ -183,7 +183,7 @@ const Pantry = ({navigation}) => {
               color = 'green'
               onPress= { async () => {
                 if (item) {
-                  await deleteItem(item.key);
+                  await deleteItem(selectedItem.key);
                   fetchData(); // Refresh pantry data
                   toggleDialog();
                   Snackbar.show({
