@@ -1,6 +1,7 @@
 # Documentation
 This is intended to be a guide for ourselves to understand how to use the libraries and their various components. It is not intended to be a user guide for the app itself.
 
+
 ## Table of Contents
 1. [File Information](#1-file-information)
 2. [License References](#2-license-references)
@@ -31,6 +32,7 @@ This is intended to be a guide for ourselves to understand how to use the librar
         1. [Start the Metro Server](#531-start-the-metro-server)
         2. [Start the Application](#532-start-the-application)
 
+
 ## 1. Project File Information
 - /PantryPal - The root directory of the project.
 - /PantryPal/AddItem.js - Contains the add pantry item screen
@@ -41,19 +43,20 @@ This is intended to be a guide for ourselves to understand how to use the librar
 - /PantryPal/Pantry.js - Contains the pantry screen
 - /PantryPal/Storage.ts - Contains the firebase storage functions
 - /PantryPal/Styles.js - Contains the styles for the pantry, edit item, and add item screens
-
-
 - View the files for more information on the functions and components used.
+
 
 ## 2. License References
 According to the terms of the MIT License, we must include the following references in the project:
 - [Licenses](LICENSES.md)
+
 
 ## 3. Frameworks & Tools Used
 - [Firebase](https://firebase.google.com/)
 - [React](https://react.dev/)
 - [React-Native](https://reactnative.dev/)
 - [NodeJS](https://nodejs.org/en/)
+
 
 ## 4. Modules & Libraries Used
 - All of the libraries used in this project are listed below. The links will take you to the GitHub, or the webpage for each library.
@@ -77,6 +80,7 @@ To fix the vulnerabilities, run the following command in the root of the project
 ```bash
 npm audit fix --force
 ```
+
 
 ### 4.2. React-Native-Firebase
 - [React-Native-Firebase](https://github.com/invertase/react-native-firebase)
@@ -120,6 +124,7 @@ In the root of the project directory, you can run:
 npm install @react-native-community/datetimepicker --save
 ```
 
+
 ### 4.4. NP
 - [NP](https://github.com/sindresorhus/np)
 
@@ -128,6 +133,7 @@ In the root of the project directory, you can run:
 ```bash
 npm install --global np
 ```
+
 
 ### 4.5 React Native Version
 - [React-Native-Version](https://github.com/stovmascript/react-native-version)
@@ -138,6 +144,7 @@ In the root of the project directory, you can run:
 $ npm install react-native-version --save-dev
 ```
 
+
 ### 4.6 React Navigation
 - [React-Navigation](https://reactnavigation.org/docs/getting-started)
 
@@ -146,6 +153,7 @@ In the root of the project directory, you can run:
 ```bash
 npm install @react-navigation/material-top-tabs
 ```
+
 
 ### 4.7 React Native Pager-View
 - [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
@@ -156,6 +164,7 @@ In the root of the project directory, you can run:
 npm install react-native-pager-view
 ```
 
+
 ### 4.8 React Native Snackbar
 - [React-Native-Snackbar](https://github.com/cooperka/react-native-snackbar/tree/main)
 
@@ -165,10 +174,20 @@ In the root of the project directory, you can run:
 npm install react-native-snackbar --save
 ```
 
+
 ### 4.9 React-Native-Pager-View
 - [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
 
-### 4.10 
+
+### 4.10 React-Native-Notifications
+- [React-Native-Notifications](https://github.com/wix/react-native-notifications)
+
+#### 4.10.1 Installation
+In the root of the project directory, you can run:
+```bash
+npm install react-native-notifications --save
+```
+
 
 ## 5. How to Run
 
