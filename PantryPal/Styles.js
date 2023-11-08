@@ -6,6 +6,30 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  addContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative", // Add this to allow absolute positioning'
+  },
+  addText: {
+    fontSize: 20,
+    fontFamily: "Trebuchet MS", // Change to your desired font
+    color: "black", // Change to your desired color
+    fontWeight: "bold",
+  },
+  addText2: {
+    fontSize: 16,
+    fontFamily: "Trebuchet MS", // Change to your desired font
+    color: "black", // Change to your desired color
+    fontWeight: "bold",
+  },
+  addTextContainer: {
+    flexDirection: "row", // Arrange items in a row horizontally
+    justifyContent: "space-between", // Space between the buttons
+    marginTop: 10, // Add space between the item details and buttons
+    backgroundColor: "white",
+  },
   buttonContainer: {
     flexDirection: 'row', // Arrange items in a row horizontally
     justifyContent: 'space-between', // Space between the buttons
@@ -15,6 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Arrange items in a row horizontally
     justifyContent: 'center', // Space between the buttons
     marginTop: 10, // Add space between the item details and buttons
+    marginBottom: 10,
   },
   buttonText: {
     color: 'white',
@@ -29,26 +54,32 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative", // Add this to allow absolute positioning
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative', // Add this to allow absolute positioning
   },
   itemContainer: {
-    flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    position: "relative", // Add this to allow absolute positioning
-    backgroundColor: "white",
-    padding: 15,
-    marginVertical: 10,
-    marginHorizontal: 10,
-
+    flex: 0.3,
+    justifyContent: 'space-between',
+    backgroundColor: 'floralwhite',
+    borderColor: 'black',
+    borderRadius: 20, // Rounded border
+    borderWidth: 5, // 5 point border width
+    // position: "relative", // Add this to allow absolute positioning
+    padding: 20,
+    margin: 10,
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background color with transparency
+  },
+  pantryContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative', // Add this to allow absolute positioning
   },
   status: {
     fontSize: 18,
@@ -111,6 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textBox2: {
+    backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'black',
     height: 40,
