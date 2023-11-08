@@ -106,6 +106,8 @@ keytool -list -v -keystore my-release-key.keystore
 ```
 - Replace `my-release-key.keystore` with the name of the file you generated.
 - Add the SHA-1 key to the SHA certificate fingerprints in the Firebase console project settings.
+- Download the `google-services.json` file from the Firebase console project settings.
+- Add the `google-services.json` file to the `PantryPal/android/app` directory of the project.
 
 
 ### 4.3. React Native DateTimePicker
