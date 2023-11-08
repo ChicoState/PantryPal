@@ -90,6 +90,24 @@ npm install @react-native-firebase/firestore
 npm install @react-native-firebase/auth
 ```
 
+### 4.2.2. Setup
+You are going to need to generate a new SHA-1 key for the project. This is used for the Firebase Authentication.
+- In the root of the project directory, you can run:
+```bash
+keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+```
+- Replace `my-release-key.keystore` with the name of the file you want to generate.
+- Replace 'my-key-alias' with the name of the alias you want to use.
+- Follow all of the prompts, and remember the password you use, I recommend the default password 'android'.
+- Once you have generated your key, you need to grab the SHA-1 key from it.
+- In the root of the project directory, you can run:
+```bash
+keytool -list -v -keystore my-release-key.keystore
+```
+- Replace `my-release-key.keystore` with the name of the file you generated.
+- Add the SHA-1 key to the SHA certificate fingerprints in the Firebase console project settings.
+
+
 ### 4.3. React Native DateTimePicker
 - [React Native DateTimePicker](https://github.com/react-native-datetimepicker/datetimepicker)
 
