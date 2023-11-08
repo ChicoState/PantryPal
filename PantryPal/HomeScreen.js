@@ -1,6 +1,16 @@
+/* 
+ * File Name: PantryPal/HomeScreen.js
+ * Description: This is the HomeScreen screen
+ * It allows the user to navigate to the grocery list and pantry screens.
+ * It is the first screen the user sees.
+ * It is accessed from the App.tsx file.
+ * If you want navigate to a new screen, add a button and add the screen to the navigator.
+ */
+
 import React from 'react';
 import { View, Text, Button, ImageBackground, StyleSheet } from 'react-native';
 
+// This is the HomeScreen
 const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
