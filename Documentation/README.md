@@ -8,8 +8,8 @@ This is intended to be a guide for ourselves to understand how to use the librar
 4. [Modules & Libraries Used](#4-modules-&-libraries-used)
     1. [Fixing Vulnerabilities](#41-fixing-vulnerabilities)
     2. [React-Native-Firebase](#42-react-native-firebase)
-        1. [Installation](#411-installation)
-        2. [Setup](#412-setup)
+        1. [Installation](#421-installation)
+        2. [Setup](#422-setup)
     3. [React-Native-DateTimePicker](#43-react-native-datetimepicker)
         1. [Installation](#431-installation)
     4. [NP](#43-np)
@@ -105,6 +105,7 @@ keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg
 keytool -list -v -keystore my-release-key.keystore
 ```
 - Replace `my-release-key.keystore` with the name of the file you generated.
+- Copy the SHA-1 key.
 - Add the SHA-1 key to the SHA certificate fingerprints in the Firebase console project settings.
 - Download the `google-services.json` file from the Firebase console project settings.
 - Add the `google-services.json` file to the `PantryPal/android/app` directory of the project.
