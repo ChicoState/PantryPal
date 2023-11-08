@@ -1,11 +1,11 @@
 # Documentation
-This is intended to be a guide for ourselves to understand the how to use the libraries and their various components. It is not intended to be a user guide for the app itself.
+This is intended to be a guide for ourselves to understand how to use the libraries and their various components. It is not intended to be a user guide for the app itself.
 
 ## Table of Contents
 1. [File Information](#1-file-information)
 2. [License References](#2-license-references)
-3. [Frameworks and Tools Used](#3-frameworks-and-tools-used)
-4. [Modules & Libraries Used](#4-modules-and-libraries-used)
+3. [Frameworks & Tools Used](#3-frameworks-&-tools-used)
+4. [Modules & Libraries Used](#4-modules-&-libraries-used)
     1. [Fixing Vulnerabilities](#41-fixing-vulnerabilities)
     2. [React-Native-Firebase](#42-react-native-firebase)
         1. [Installation](#411-installation)
@@ -23,6 +23,7 @@ This is intended to be a guide for ourselves to understand the how to use the li
     8. [React-Native-Snackbar](#48-react-native-snackbar)
         1. [Installation](#481-installation)
     9. [React-Native-Pager-View](#49-react-native-pager-view)
+    10. [](#410-)
 5. [How to Run](#5-how-to-run)
     1. [Prerequisites](#51-prerequisites)
     2. [Install Dependencies](#52-install-dependencies)
@@ -32,27 +33,29 @@ This is intended to be a guide for ourselves to understand the how to use the li
 
 ## 1. Project File Information
 - /PantryPal - The root directory of the project.
-- /PantryPal/GroceryList.js - Contains the grocerylist functionality
-- /PantryPal/HomeScreen.js - Contains buttons to navigate to screens
-- /PantryPal/App.tsx - Contains navigation stack to navigate screens
-- /PantryPal/SecondScreen.js - Will contain the pantry functionality
-- /PantryPal/Storage.ts - Contains the firebase storage functionality
-- /PantryPal/AddItem.js - Contains the add pantry item functionality
-- /PantryPal/EditItem.js - Contains the edit pantry item functionality
-- /PantryPal/DeleteItem.js - Contains the delete pantry item functionality
-- View the files for more information
+- /PantryPal/AddItem.js - Contains the add pantry item screen
+- /PantryPal/App.tsx - Contains navigation stack for the different screens
+- /PantryPal/EditItem.js - Contains the edit pantry item screen
+- /PantryPal/GroceryList.js - Contains the grocery list screen
+- /PantryPal/HomeScreen.js - Contains buttons to navigate to the screens
+- /PantryPal/Pantry.js - Contains the pantry screen
+- /PantryPal/Storage.ts - Contains the firebase storage functions
+- /PantryPal/Styles.js - Contains the styles for the pantry, edit item, and add item screens
+
+
+- View the files for more information on the functions and components used.
 
 ## 2. License References
 According to the terms of the MIT License, we must include the following references in the project:
-- [LICENSES](LICENSES.md)
+- [Licenses](LICENSES.md)
 
-## 3. Frameworks and Tools Used
+## 3. Frameworks & Tools Used
 - [Firebase](https://firebase.google.com/)
 - [React](https://react.dev/)
 - [React-Native](https://reactnative.dev/)
 - [NodeJS](https://nodejs.org/en/)
 
-## 4. Modules and Libraries Used
+## 4. Modules & Libraries Used
 - All of the libraries used in this project are listed below. The links will take you to the GitHub, or the webpage for each library.
 - After each pull of the main branch, always make sure you run the following command in the root of the project directory to make sure you have all of the required libraries:
 ```bash
@@ -60,7 +63,7 @@ npm install
 ```
 
 ### 4.1. Fixing Vulnerabilities
-You may encounter vulnerabilities when installing packages. To fix these vulnerabilities, run the following command in the root of the project directory:
+You may encounter the following when installing packages:
 ```bash
 4 vulnerabilities (1 high, 3 critical)
 
@@ -70,7 +73,7 @@ To address issues that do not require attention, run:
 To address all issues (including breaking changes), run:
   npm audit fix --force
 ```
-To fix this, run the following command:
+To fix the vulnerabilities, run the following command in the root of the project directory:
 ```bash
 npm audit fix --force
 ```
@@ -143,6 +146,8 @@ npm install react-native-snackbar --save
 
 ### 4.9 React-Native-Pager-View
 - [React-Native-Pager-View](https://github.com/callstack/react-native-pager-view)
+
+### 4.10 
 
 ## 5. How to Run
 
