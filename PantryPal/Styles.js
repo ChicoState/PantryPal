@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Arrange items in a row horizontally
     justifyContent: "space-between", // Space between the buttons
     marginTop: 10, // Add space between the item details and buttons
+    marginBottom: 10,
     backgroundColor: "white",
   },
   buttonContainer: {
@@ -57,6 +58,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative', // Add this to allow absolute positioning
+  },
+  headerContainer: {
+    flexDirection: 'row', // Arrange items in a row horizontally
+    justifyContent: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 5,
+    // borderWidth: 5, // 5 point border width
+    alignItems: 'center',
+
   },
   itemContainer: {
     flex: 0.3,
