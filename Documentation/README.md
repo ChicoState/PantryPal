@@ -34,16 +34,23 @@ This is intended to be a guide for ourselves to understand how to use the librar
 
 
 ## 1. Project File Information
-- /PantryPal - The root directory of the project.
-- /PantryPal/AddItem.js - Contains the add pantry item screen
-- /PantryPal/App.tsx - Contains navigation stack for the different screens
-- /PantryPal/EditItem.js - Contains the edit pantry item screen
-- /PantryPal/GroceryList.js - Contains the grocery list screen
-- /PantryPal/HomeScreen.js - Contains buttons to navigate to the screens
-- /PantryPal/Pantry.js - Contains the pantry screen
-- /PantryPal/Storage.ts - Contains the firebase storage functions
-- /PantryPal/Styles.js - Contains the styles for the pantry, edit item, and add item screens
-- View the files for more information on the functions and components used.
+- /Documentation - Contains the documentation for the project.
+- /Documentation/README.md - This file.
+- /Documentation/LICENSES.md - Contains a list of the licenses for the libraries used in the project.
+- /Documentation/Licenses - Contains copies of the licenses for the libraries used in the project.
+- /PantryPal - The root directory. This contains the source code for the project.
+- /PantryPal/Images - Contains the images used in the project.
+- /PantryPal/AddItem.js - Contains the add pantry item screen.
+- /PantryPal/App.tsx - This is the main file of the app and contains navigation stack for the different screens.
+- /PantryPal/EditItem.tsx - Contains the edit pantry item screen.
+- /PantryPal/GroceryList.js - Contains the grocery list screen.
+- /PantryPal/HomeScreen.js - Contains buttons to navigate to the screens.
+- /PantryPal/Pantry.js - Contains the pantry screen.
+- /PantryPal/Storage.ts - Contains the firebase storage functions.
+- /PantryPal/Styles.js - Contains the styles for the pantry, edit item, and add item screens.
+- /LICENSE - PantryPal project license.
+- /README.md - The readme for the github repository.
+- View the files for more information.
 
 
 ## 2. License References
@@ -84,6 +91,7 @@ npm audit fix --force
 
 ### 4.2. React-Native-Firebase
 - [React-Native-Firebase](https://github.com/invertase/react-native-firebase)
+- [React-Native-Firebase - Firestore](https://rnfirebase.io/firestore/usage)
 
 #### 4.2.1. Installation
 This requires several different packages to be installed.
