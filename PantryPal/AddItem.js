@@ -39,22 +39,17 @@ const AddItem = ({navigation}) => {
   const [inPantry, setInPantry] = useState(false);
   // This is the state for the error message
   const [errorMessage, setErrorMessage] = useState('');
-  // This is the state for the date picker
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  // This is temporary to let the user know edit is not available
-  const [isDialogVisible, setDialogVisible] = useState(false);
+  // These are the states for the date pickers
+  const [showDatePickerPurchase, setShowDatePickerPurchase] = useState(false);
+  const [showDatePickerExpiration, setShowDatePickerExpiration] = useState(false);
 
   // This is the function to show the date picker
-  const showDatepicker = () => {
-    setShowDatePicker(true);
-  };
-
-  // This the the temporary function to let the user know edit is not available
-  const showDialog = () => {
-    setDialogVisible(true);
-  };
-  const hideDialog = () => {
-    setDialogVisible(false);
+  const showDatepicker = (datePickerType) => {
+    if (datePickerType === 'purchase') {
+      setShowDatePickerPurchase(true);
+    } else if (datePickerType === 'expiration') {
+      setShowDatePickerExpiration(true);
+    }
   };
 
   // This is the function to add an item to our pantry
@@ -102,6 +97,7 @@ const AddItem = ({navigation}) => {
         duration: Snackbar.LENGTH_SHORT,
       });
       setName('');
+      setErrorMessage('No item name')
     }
     else {
       setErrorMessage('');
@@ -114,10 +110,11 @@ const AddItem = ({navigation}) => {
     const number = parseInt(inputText);
     if (isNaN(number)) {
       Snackbar.show({
-        text: 'Please enter a number',
+        text: 'Please enter a valid number',
         duration: Snackbar.LENGTH_SHORT,
       });
       setQuantity(0);
+      setErrorMessage('Not a number');
     }
     else if (number < 0) {
       Snackbar.show({
@@ -125,6 +122,7 @@ const AddItem = ({navigation}) => {
         duration: Snackbar.LENGTH_SHORT,
       });
       setQuantity(0);
+      setErrorMessage('Negative number');
     }
     else {
       setErrorMessage('');
@@ -153,45 +151,45 @@ const AddItem = ({navigation}) => {
           style={styles.textBox2}
         />
         <View style={styles.addTextContainer}>
-          <Text style={styles.addText}>Date Purchased: {datePurchased.toDateString()}</Text>
+          <Text style={styles.status}>Purchased: {datePurchased.toDateString()}</Text>
         </View>
         <View style={styles.addTextContainer}>
-          <Text style={styles.addText}>Expires: {expirationDate.toDateString()}</Text>
+          <Text style={styles.status}>Expires: {expirationDate.toDateString()}</Text>
         </View>
         <View style={styles.buttonContainer2}>
           <Button
-            title='Date Purchased'
-            color = 'goldenrod'
-            onPress={showDatepicker}
+            title='Purchase Date'
+            color='goldenrod'
+            onPress={() => showDatepicker('purchase')}
           />
-          {showDatePicker && (
+          {showDatePickerPurchase && (
             <DateTimePicker
               value={datePurchased}
               mode='date'
               display='default'
-              onChange={(_, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  setDatePurchased(new Date (selectedDate));
+              onChange={(_, selectedPurDate) => {
+                setShowDatePickerPurchase(false);
+                if (selectedPurDate) {
+                  setDatePurchased(new Date(selectedPurDate));
                 }
               }}
             />
           )}
           <Text>          </Text>
           <Button
-            title='Expiration'
-            color = 'darkred'
-            onPress={showDatepicker}
+            title='Expiration Date'
+            color='darkred'
+            onPress={() => showDatepicker('expiration')}
           />
-          {showDatePicker && (
+          {showDatePickerExpiration && (
             <DateTimePicker
               value={expirationDate}
               mode='date'
               display='default'
-              onChange={(_, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  setExpirationDate(new Date(selectedDate));
+              onChange={(_, selectedExpDate) => {
+                setShowDatePickerExpiration(false);
+                if (selectedExpDate) {
+                  setExpirationDate(new Date(selectedExpDate));
                 }
               }}
             />
@@ -221,7 +219,7 @@ const AddItem = ({navigation}) => {
           <Text>          </Text>
           <Button
           title='Pantry'
-          color = 'olive'
+          color = 'slategray'
           onPress={() => setInPantry(!inPantry)} />
         </View>
         <View style={styles.buttonContainer2}>
@@ -251,7 +249,6 @@ const AddItem = ({navigation}) => {
       </View>
     </ImageBackground>
   )
-
 }
 
 export default AddItem;
