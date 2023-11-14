@@ -8,14 +8,18 @@
 
 // Necessary imports
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationProp,
+  RouteProp,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 // Import the screens
 import HomeScreen from './HomeScreen.js';
 import GroceryList from './GroceryList.js';
 import Pantry from './Pantry.js';
 import AddItem from './AddItem.js';
-import EditItem from './EditItem.js';
+import EditItem from './EditItem';
 
 /*
  * Create the navigation stacks for the app
@@ -27,13 +31,29 @@ import EditItem from './EditItem.js';
 const Stack = createStackNavigator();
 const PantryStack = createStackNavigator();
 
+// This is the param list for the PantryStack
+type MyParamList = {
+  EditItem: {itemName: string};
+};
+
+// These are the props for the EditItem screen
+type EditItemProps = {
+  navigation: NavigationProp<MyParamList, 'EditItem'>;
+  route: RouteProp<MyParamList, 'EditItem'>;
+};
+
+// This is the edit item screen component
+const EditItemComponent: React.FC<EditItemProps> = ({navigation, route}) => {
+  return <EditItem navigation={navigation} route={route} />;
+};
+
 // This is navigation stack for the Pantry screen
 const PantryStackScreen = () => {
   return (
     <PantryStack.Navigator>
       <PantryStack.Screen name="Your Pantry" component={Pantry} />
       <PantryStack.Screen name="Add Item" component={AddItem} />
-      <PantryStack.Screen name="Edit Item" component={EditItem} />
+      <PantryStack.Screen name="Edit Item" component={EditItemComponent} />
     </PantryStack.Navigator>
   );
 };
