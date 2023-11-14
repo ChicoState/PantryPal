@@ -28,8 +28,6 @@ import {
 import styles from './Styles.js';
 // Load the background image
 import image from './Images/pantryimage.jpg';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
 
 // This is the pantry screen
 const Pantry = ({navigation}) => {
@@ -107,7 +105,7 @@ const Pantry = ({navigation}) => {
           style={styles.editButton}
           onPress={() => {
             setName(item.key);
-            navigation.navigate('Edit Item', key=item.key);
+            navigation.navigate('Edit Item', { itemName: item.key });
           }}
         />
         <Text>          </Text>
@@ -140,7 +138,9 @@ const Pantry = ({navigation}) => {
           </>
         ) : (
           <>
-            <Text style={styles.text}>Your pantry items</Text>
+            <View style={styles.headerContainer}>
+              <Text style={styles.text}>Your Pantry</Text>
+            </View>
             <View style={styles.pantryContainer}>
               <FlatList
                 data={pantryData}
