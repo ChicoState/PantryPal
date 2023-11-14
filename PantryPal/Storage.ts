@@ -1,12 +1,12 @@
 /*
  * File: PantryPal/Storage.ts
  * Description: Firebase Firestore Cloud Database storage functions for PantryPal
- * Documentation: https://rnfirebase.io/firestore/usage
  */
 
 // Necessary imports
 import firestore from '@react-native-firebase/firestore';
 
+// This is our collection
 const pantry = 'Pantry';
 
 // Storage Functions
@@ -31,17 +31,11 @@ export const addItem = async (
 ) => {
   // Create an object to store the data
   const itemData = {
-    // Date purchased
     datePurchased: datePurchased,
-    // Expiration date
     expiration: expiration,
-    // Quantity of item
     quantity: quantity,
-    // If the item is in the refrigerator
     fridge: fridge,
-    // If the item is in the freezer
     freezer: freezer,
-    // If the item is in the pantry
     pantry: inPantry,
   };
 
@@ -75,8 +69,8 @@ export const deleteItem = async (name: string) => {
 /*
  * Update the entire item
  * @param name - name of the item, i.e. "milk", "eggs", etc
- * @param datePurchased - date the item was purchased
- * @param expiration - expiration date of item
+ * @param datePurchased - date the item was purchased, as a string
+ * @param expiration - expiration date of item, as a string
  * @param quantity - quantity of item
  * @param freezer - if the item is in the freezer
  * @param fridge - if the item is in the fridge
@@ -94,17 +88,11 @@ export const editItem = async (
   try {
     // Update the item's data
     const itemData = {
-      // Date purchased, convert it to an ISO string
       datePurchased: datePurchased,
-      // Expiration date, convert it to an ISO string
       expiration: expiration,
-      // Quantity of item
       quantity: quantity,
-      // If the item is in the refrigerator
       fridge: fridge,
-      // If the item is in the freezer
       freezer: freezer,
-      // If the item is in the pantry
       pantry: inPantry,
     };
     // Update the item
@@ -112,13 +100,14 @@ export const editItem = async (
   } catch (error) {
     // This is for debugging purposes
     console.log(error);
+    // Throw an error if we fail to save the data
     throw new updateItemError('Failed to update item: ' + error);
   }
 };
 
 /*
  * Load an item in our pantry from storage
- * @param name - name of the item, ie "milk", "eggs", etc, no underscores are allowed
+ * @param name - name of the item, ie "milk", "eggs", etc
  */
 export const loadItem = async (name: string) => {
   try {
@@ -148,7 +137,7 @@ export const loadItem = async (name: string) => {
   }
 };
 
-// Load all the items in our pantry from storage
+// Loads all of the items and associated data in our pantry
 export const loadPantryData = async () => {
   try {
     // Grab all the documents in the collection
@@ -157,7 +146,7 @@ export const loadPantryData = async () => {
     if (itemsQuerySnapshot.empty) {
       return null;
     }
-    // If there are documents, convert the ISO strings back to Date objects
+    // If there are documents, convert the strings back to Date objects
     const allStoredData = itemsQuerySnapshot.docs.map(doc => {
       const itemData = doc.data();
       itemData.datePurchased = new Date(itemData.datePurchased);
@@ -173,7 +162,7 @@ export const loadPantryData = async () => {
   }
 };
 
-// Load the names of all the items in our pantry
+// Loads the the names of all of the items in our pantry
 export const loadPantryKeys = async () => {
   try {
     const itemsQuerySnapshot = await firestore().collection(pantry).get();
@@ -192,7 +181,7 @@ export const loadPantryKeys = async () => {
   }
 };
 
-// Update methods for items
+// Various update methods for pantry items
 /*
  * Update the purchase date of an item
  * @param name - name of the item, ie "milk", "eggs", etc
@@ -200,12 +189,11 @@ export const loadPantryKeys = async () => {
  */
 export const updateDatePurchased = async (
   name: string,
-  datePurchased: Date,
+  datePurchased: string,
 ) => {
   try {
-    const datePurchasedString = datePurchased.toISOString();
     await firestore().collection(pantry).doc(name).update({
-      datePurchased: datePurchasedString,
+      datePurchased: datePurchased,
     });
   } catch (error) {
     // This is for debugging purposes
@@ -221,11 +209,10 @@ export const updateDatePurchased = async (
  * @param name - name of the item, ie "milk", "eggs", etc
  * @param expiration - expiration date of item
  */
-export const updateExpiration = async (name: string, expiration: Date) => {
+export const updateExpiration = async (name: string, expiration: string) => {
   try {
-    const expirationString = expiration.toISOString();
     await firestore().collection(pantry).doc(name).update({
-      expiration: expirationString,
+      expiration: expiration,
     });
   } catch (error) {
     // This is for debugging purposes
