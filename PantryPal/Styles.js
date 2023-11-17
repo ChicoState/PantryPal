@@ -31,6 +31,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "white",
   },
+  buttonInc: {
+    backgroundColor: 'green',
+    padding: 10,
+    marginHorizontal: 5,
+    borderRadius: 5,
+  },
+  buttonDec: {
+    backgroundColor: 'red',
+    padding: 10,
+    marginHorizontal: 5,
+    borderRadius: 5,
+  },
   buttonContainer: {
     flexDirection: 'row', // Arrange items in a row horizontally
     justifyContent: 'space-between', // Space between the buttons
@@ -45,6 +57,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 20,
   },
   confirmationText: {
     fontSize: 20,
