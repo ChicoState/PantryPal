@@ -1,5 +1,5 @@
 /*
- * File: PantryPal/EditItem.js
+ * File: PantryPal/EditItem.tsx
  * Description: This is the EditItem screen
  * It allows the user to edit an item in the pantry.
  * It is accessed from the Pantry screen.
@@ -9,7 +9,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, ImageBackground} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // Storage functions
-import {editItem, loadItem} from './Storage';
+import {editItem, loadItem} from './PantryStorage';
 // This is for the route from the pantry screen
 import {
   NavigationProp,
@@ -23,12 +23,13 @@ import styles from './Styles.js';
 // Load the background image
 // import image from './Images/pantryimage.jpg';
 
-//
+// This is the route type
 type MyParamList = ParamListBase & {
   EditItem: {itemName: string};
   route: RouteProp<MyParamList, 'EditItem'>;
 };
 
+// This is the props type
 interface EditItemProps {
   navigation: NavigationProp<MyParamList, 'EditItem'>;
   route: RouteProp<MyParamList, 'EditItem'>;
@@ -36,7 +37,9 @@ interface EditItemProps {
 
 // This is the edit item screen
 const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
+  // This is the item name we are editing
   const itemName: string = route.params.itemName;
+  // These are the initial item states until we load the item
   const [quantity, setQuantity] = useState<number>(0);
   const [datePurchased, setDatePurchased] = useState<Date>(new Date());
   const [expirationDate, setExpirationDate] = useState<Date>(new Date());
@@ -44,12 +47,15 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
   const [inFreezer, setInFreezer] = useState<boolean>(false);
   const [inPantry, setInPantry] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  // These are the date picker states
   const [showDatePickerPurchase, setShowDatePickerPurchase] =
     useState<boolean>(false);
   const [showDatePickerExpiration, setShowDatePickerExpiration] =
     useState<boolean>(false);
+  // Load the background image
   const image = require('./Images/pantryimage.jpg');
 
+  // This is the function to show the date pickers
   const showDatepicker = (datePickerType: string): void => {
     if (datePickerType === 'purchase') {
       setShowDatePickerPurchase(true);
@@ -58,12 +64,14 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
     }
   };
 
+  // This is the function to load the item data and set the states
   const fetchData = useCallback(async (): Promise<void> => {
     try {
       const item = await loadItem(itemName);
       // Set the item data
       if (item === null) {
-        throw new Error('Item not found!');
+        console.log('The item was null!');
+        throw new Error('Load Item Error!');
       }
       setQuantity(item.quantity);
       setDatePurchased(new Date(item.datePurchased));
@@ -81,6 +89,7 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
     }
   }, [errorMessage, itemName]);
 
+  // This is the function to update the item after editing
   const updateItem = async (): Promise<void> => {
     try {
       await editItem(
@@ -132,10 +141,12 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
     }
   };
 
+  // This is the useEffect hook to load the item data
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+  // This is actual screen
   return (
     <ImageBackground
       source={image}
@@ -171,8 +182,8 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
           {showDatePickerPurchase && (
             <DateTimePicker
               value={datePurchased}
-              mode='date'
-              display='default'
+              mode="date"
+              display="default"
               onChange={(_, selectedPurDate) => {
                 setShowDatePickerPurchase(false);
                 if (selectedPurDate) {
@@ -181,6 +192,7 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
               }}
             />
           )}
+          {/* eslint-disable-next-line prettier/prettier */}
           <Text>          </Text>
           <Button
             title="Expiration Date"
@@ -222,11 +234,14 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
             color="blue"
             onPress={() => setInRefrigerator(!inRefrigerator)}
           />
+          {/* eslint-disable-next-line prettier/prettier */}
           <Text>          </Text>
           <Button
             title="Freezer"
             color="purple"
-            onPress={() => setInFreezer(!inFreezer)} />
+            onPress={() => setInFreezer(!inFreezer)}
+          />
+          {/* eslint-disable-next-line prettier/prettier */}
           <Text>          </Text>
           <Button
             title="Pantry"
@@ -254,13 +269,14 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
               }
             }}
           />
+          {/* eslint-disable-next-line prettier/prettier */}
           <Text>          </Text>
           <Button
             color={'red'}
             title="Cancel"
             onPress={() => {
               navigation.goBack();
-          }}
+            }}
           />
         </View>
       </View>

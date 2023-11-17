@@ -31,12 +31,12 @@ import EditItem from './EditItem';
 const Stack = createStackNavigator();
 const PantryStack = createStackNavigator();
 
-// This is the param list for the PantryStack
+// This is the param list for the PantryStack for passing parameters between the pantry and edit screens
 type MyParamList = {
   EditItem: {itemName: string};
 };
 
-// These are the props for the EditItem screen
+// These are the props for the EditItem screen, which is passed the navigation and route
 type EditItemProps = {
   navigation: NavigationProp<MyParamList, 'EditItem'>;
   route: RouteProp<MyParamList, 'EditItem'>;
