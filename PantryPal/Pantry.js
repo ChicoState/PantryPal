@@ -14,6 +14,7 @@ import {
   Modal,
   RefreshControl,
   Text,
+  Touchable,
   View,  
 } from "react-native";
 // This is the snackbar
@@ -21,28 +22,19 @@ import Snackbar from "react-native-snackbar";
 // These are the storage methods used
 import {
   loadPantryData,
+  updateQuantity,
   deleteItem,
-  editItem,
-} from './Storage.ts';
+} from './PantryStorage.js';
 // Import the styles
 import styles from './Styles.js';
 // Load the background image
 import image from './Images/pantryimage.jpg';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // This is the pantry screen
 const Pantry = ({navigation}) => {
-  // This is the state for the pantry data
+  // This is the state for the pantry data, which is a map of items and their data
   const [pantryData, setPantryData] = useState({});
-  // These are the states for the input fields for editing
-  const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [datePurchased, setDatePurchased] = useState(new Date());
-  const [expirationDate, setExpirationDate] = useState(new Date());
-  const [inRefrigerator, setInRefrigerator] = useState(false);
-  const [inFreezer, setInFreezer] = useState(false);
-  const [inPantry, setInPantry] = useState(false);
-  const[errorMessage, setErrorMessage] = useState('');
-  const[showDatePicker, setShowDatePicker] = useState(false);
   // This is for the state of the delete confirmation modal
   const [isDialogVisible, setIsDialogVisible] = useState(false); 
   // This is the state for the selected item
@@ -62,6 +54,40 @@ const Pantry = ({navigation}) => {
     setPantryData(pantryData);
   };
 
+  // This is to increment the quantity of an item
+  const incrementQuantity = async (item) => {
+    const newQuantity = item.itemData.quantity + 1;
+    item.itemData.quantity = newQuantity;
+    await updateQuantity(item.key, newQuantity);
+    fetchData(); // Refresh pantry data
+    Snackbar.show({
+      text: "Quantity updated!",
+      duration: Snackbar.LENGTH_SHORT,
+    });
+  };
+
+  // This is to decrement the quantity of an item
+  const decrementQuantity = async (item) => {
+    const newQuantity = item.itemData.quantity - 1;
+    // If the quantity is 0, delete the item from the pantry
+    if (newQuantity === 0) {
+      await deleteItem(item.key);
+      fetchData(); // Refresh pantry data
+      Snackbar.show({
+        text: "Item deleted!",
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    } else {
+      item.itemData.quantity = newQuantity;
+      await addItem(item.key, item.itemData);
+      fetchData(); // Refresh pantry data
+      Snackbar.show({
+        text: "Quantity decremented!",
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+  };
+
   // This is to pull down to refresh the pantry data
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -75,50 +101,48 @@ const Pantry = ({navigation}) => {
   }, [pantryData.key, pantryData.itemData]);
 
   // This is the render method for the individual pantry items
-  // TODO: Change the button colors inside the modal for delete
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
+  const renderItem = async ({ item }) => (
+    <><View style={styles.itemContainer}>
       <View style={styles.textContainer}>
         <Text style={styles.text2}>{item.key}</Text>
         <Text style={styles.text3}>     Quantity: {item.itemData.quantity}</Text>
-      </View>
-      <View style={styles.textContainer}>
+        <TouchableOpacity style={styles.buttonDec} onPress = { await decrementQuantity(item.key)}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonInc} onPress = { await incrementQuantity(item.key)}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+    </View><View style={styles.textContainer}>
         <Text style={styles.text3}>Date Purchased: {item.itemData.datePurchased.toDateString()}</Text>
-      </View>
-      <View style={styles.textContainer}>
+      </View><View style={styles.textContainer}>
         <Text style={styles.text3}>Expiration Date: {item.itemData.expiration.toDateString()}</Text>
-      </View>
-      <View style={styles.textContainer2}>
+      </View><View style={styles.textContainer2}>
         <Text style={styles.text3}>Location of {item.key}</Text>
-      </View>
-      <View style={styles.textContainer}>
+      </View><View style={styles.textContainer}>
         <Text style={styles.text3}>Refrigerator: {item.itemData.fridge ? 'Yes' : 'No'}</Text>
         <Text style={styles.text3}>     Freezer: {item.itemData.freezer ? 'Yes' : 'No'}</Text>
-      </View>
-      <View style={styles.textContainer}>
+      </View><View style={styles.textContainer}>
         <Text style={styles.text3}>Pantry: {item.itemData.pantry ? 'Yes' : 'No'}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button
           title="Edit Item"
-          color = 'darkorange'
+          color='darkorange'
           style={styles.editButton}
           onPress={() => {
-            setName(item.key);
             navigation.navigate('Edit Item', { itemName: item.key });
-          }}
-        />
+          } } />
         <Text>          </Text>
         <Button
           title="Delete Item"
-          color = 'darkred'
+          color='darkred'
           onPress={() => {
             setSelectedItem(item); // Set the selected item
             toggleDialog();
-          }}
-        />
+          } } />
       </View>
     </View>
+    </>
   );
   
   // This is the actual screen that is rendered
