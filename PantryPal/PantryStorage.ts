@@ -1,15 +1,15 @@
 /*
- * File: PantryPal/Storage.ts
- * Description: Firebase Firestore Cloud Database storage functions for PantryPal
+ * File: PantryPal/PantryStorage.ts
+ * Description: Pantry List Storage Functions for PantryPal
  */
 
 // Necessary imports
 import firestore from '@react-native-firebase/firestore';
 
-// This is our collection
+// This is our Pantry collection
 const pantry = 'Pantry';
 
-// Storage Functions
+// Pantry Storage Functions
 /*
  * Add a item to our pantry
  * @param name - name of the item, i.e. "milk", "eggs", etc
@@ -46,7 +46,7 @@ export const addItem = async (
     // This is for debugging purposes
     console.log(error);
     // Throw an error if we fail to save the data
-    throw new addItemError('Failed to add item: ' + error);
+    throw new addItemError('Failed to add item to pantry: ' + error);
   }
 };
 
@@ -62,7 +62,7 @@ export const deleteItem = async (name: string) => {
     // This is for debugging purposes
     console.log(error);
     // Throw an error if we fail to save the data
-    throw new deleteItemError('Failed to delete item: ' + error);
+    throw new deleteItemError('Failed to delete item from pantry: ' + error);
   }
 };
 
@@ -305,8 +305,8 @@ export const updateQuantity = async (name: string, quantity: number) => {
   }
 };
 
-// Various Error Handlers for Storage Functions
-// Error for adding an item
+// Various Error Handlers for Pantry Storage Functions
+// Error for adding an item the pantry
 export class addItemError extends Error {
   constructor(message: string) {
     super(message);
@@ -314,7 +314,7 @@ export class addItemError extends Error {
   }
 }
 
-// Error for deleting an item
+// Error for deleting an item from the pantry
 export class deleteItemError extends Error {
   constructor(message: string) {
     super(message);
@@ -322,7 +322,7 @@ export class deleteItemError extends Error {
   }
 }
 
-// Error for loading an item
+// Error for loading an item from the pantry
 export class loadItemError extends Error {
   constructor(message: string) {
     super(message);
