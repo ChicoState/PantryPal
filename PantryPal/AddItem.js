@@ -11,6 +11,7 @@ import {
   View,
   Text,
   TextInput,
+  FlatList,
   Button,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,7 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {
   addItem,
   addItemError
-} from './PantryStorage.js';
+} from './Storage.ts';
 // This is the snackbar
 import Snackbar from 'react-native-snackbar';
 // Import the styles
