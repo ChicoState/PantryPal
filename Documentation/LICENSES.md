@@ -19,8 +19,14 @@ According to the terms of the licenses, the following references must be include
 ## React-Native-Firebase
 - [React-Native-Firebase-License](/Documentation/Licenses/React-Native-Firebase-License.md)
 
+## React-Native-Notifications
+- [React-Native-Notifications-License](/Documentation/Licenses/React-Native-Notifications-License.md)
+
 ## React-Native-Pager-View
 - [React-Native-Pager-View-License](/Documentation/Licenses/React-Native-Pager-View-License.md)
+
+## React-Native-Snackbar
+- [React-Native-Snackbar-License](/Documentation/Licenses/React-Native-Snackbar-License.md)
 
 ## React-Native-Version
 - [React-Native-Version-License](/Documentation/Licenses/React-Native-Version-License.md)
