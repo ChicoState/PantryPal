@@ -23,7 +23,7 @@ import styles from './Styles.js';
 // Load the background image
 // import image from './Images/pantryimage.jpg';
 
-//
+// This is the route type
 type MyParamList = ParamListBase & {
   EditItem: {itemName: string};
   route: RouteProp<MyParamList, 'EditItem'>;
