@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
+import image from './Images/italy.jpg';
 
 const GroceryList = ({ navigation }) => {
   const [foodItem, setFoodItem] = useState('');
@@ -33,7 +34,7 @@ const GroceryList = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('./Images/italy.jpg')}
+      source={image}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
