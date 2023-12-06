@@ -9,17 +9,19 @@
 
 import React from 'react';
 import { View, Text, Button, ImageBackground, StyleSheet, Image } from 'react-native';
+import image1 from './Images/italy.jpg';
+import image2 from './Images/pantrypal.jpg';
 
 // This is the HomeScreen
 const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
-      source={require('./Images/italy.jpg')}
+      source={image1}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
       <View style={styles.container}>
         <Image
-          source={require('./Images/pantrypal.jpg')}
+          source={image2}
           style={{ width: 350, height: 200, resizeMode: 'contain' }}
         />
         <View style={styles.button}>
@@ -34,6 +36,13 @@ const HomeScreen = ({ navigation }) => {
             title="Pantry"
             color="maroon"
             onPress={() => navigation.navigate('Pantry')}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Meal Plans"
+            color="brown"
+            onPress={() => navigation.navigate('Meal Plans')}
           />
         </View>
       </View>

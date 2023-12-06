@@ -17,6 +17,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // Import the screens
 import HomeScreen from './HomeScreen.js';
 import GroceryList from './GroceryList.js';
+import MealScreen from './MealScreen.js';
 import Pantry from './Pantry.js';
 import AddItem from './AddItem.js';
 import EditItem from './EditItem';
@@ -73,7 +74,12 @@ const App = () => {
           component={HomeScreen}
           options={{headerShown: false}} // Hide header for HomeScreen
         />
-        <Stack.Screen name="Grocery List" component={GroceryList} />
+        <Stack.Screen 
+          name="Grocery List" component={GroceryList} 
+        />
+        <Stack.Screen 
+          name="Meal Plans" component={MealScreen} 
+        />
         <Stack.Screen
           name="Pantry"
           component={PantryStackScreen}
