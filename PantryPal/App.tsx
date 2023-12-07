@@ -17,6 +17,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 // Import the screens
 import HomeScreen from './HomeScreen.js';
 import GroceryList from './GroceryList.js';
+import MealScreen from './MealScreen.js';
 import Pantry from './Pantry.js';
 import AddItem from './AddItem.js';
 import EditItem from './EditItem';
@@ -50,13 +51,18 @@ const EditItemComponent: React.FC<EditItemProps> = ({navigation, route}) => {
 // This is navigation stack for the Pantry screen
 const PantryStackScreen = () => {
   return (
-    <PantryStack.Navigator>
+    <PantryStack.Navigator
+      screenOptions={{
+        headerShown: false, // Set headerShown to false for the entire stack
+      }}
+    >
       <PantryStack.Screen name="Your Pantry" component={Pantry} />
       <PantryStack.Screen name="Add Item" component={AddItem} />
       <PantryStack.Screen name="Edit Item" component={EditItemComponent} />
     </PantryStack.Navigator>
   );
 };
+
 
 // This is the main navigation stack for the app
 const App = () => {
@@ -68,7 +74,12 @@ const App = () => {
           component={HomeScreen}
           options={{headerShown: false}} // Hide header for HomeScreen
         />
-        <Stack.Screen name="Grocery List" component={GroceryList} />
+        <Stack.Screen 
+          name="Grocery List" component={GroceryList} 
+        />
+        <Stack.Screen 
+          name="Meal Plans" component={MealScreen} 
+        />
         <Stack.Screen
           name="Pantry"
           component={PantryStackScreen}
