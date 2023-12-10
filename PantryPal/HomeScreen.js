@@ -45,6 +45,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Meal Plans')}
           />
         </View>
+        <Text style={styles.bottomText }>PantryPal Inc 2023</Text>
       </View>
     </ImageBackground>
   );
@@ -59,6 +60,13 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 15,
+  },
+  bottomText: {
+    color: 'white',
+    fontSize: 18,
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 20, // Adjust margin as needed
   },
 });
 
