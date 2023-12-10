@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, Styles, TextInput, Button, FlatList, ImageBackground, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import image from './Images/italy.jpg';
 
 const preCodedMeals = [
@@ -29,6 +29,8 @@ const preCodedMeals = [
 const MealScreen = ({ navigation }) => {
     const [meal, setMeal] = useState('');
     const [mealsList, setMealsList] = useState([]);
+    const [showAllMealsModal, setShowAllMealsModal] = useState(false);
+    const [selectedMealToAdd, setSelectedMealToAdd] = useState(null);
 
     const handleAddMeal = () => {
         if (meal.trim() !== '') {
@@ -37,7 +39,7 @@ const MealScreen = ({ navigation }) => {
         }
     };
 
-    const handleRemoveMeal = (index) => {
+    const handleRemoveItem = (index) => {
         const updatedMealsList = [...mealsList];
         updatedMealsList.splice(index, 1);
         setMealsList(updatedMealsList);
@@ -59,6 +61,19 @@ const MealScreen = ({ navigation }) => {
         return matchedMeal ? matchedMeal.calories : 'Calories not available';
     };
 
+    const handleDisplayAllMeals = () => {
+        setShowAllMealsModal(true);
+    };
+
+    const handleCloseAllMealsModal = () => {
+        setShowAllMealsModal(false);
+        setSelectedMealToAdd(null);
+    };
+
+    const handleAddSelectedMeal = (mealName) => {
+        setMealsList([...mealsList, mealName]);
+    };
+
     return (
         <ImageBackground
             source={image}
@@ -76,15 +91,44 @@ const MealScreen = ({ navigation }) => {
                         <Text style={{ color: 'white' }}>Add Meal</Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={handleDisplayAllMeals}>
+                    <View style={{ backgroundColor: 'brown', padding: 10, borderRadius: 5, marginTop: 10 }}>
+                        <Text style={{ color: 'white' }}>Display All Meals</Text>
+                    </View>
+                </TouchableOpacity>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={showAllMealsModal}
+                >
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>All Pre-coded Meals</Text>
+                        <FlatList
+                            data={preCodedMeals}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <View style={styles.modalItem}>
+                                    <Text>{item.name}</Text>
+                                    <TouchableOpacity onPress={() => handleAddSelectedMeal(item.name)}>
+                                        <View style={styles.addButton}>
+                                            <Text style={{ color: 'white' }}>Select</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                        />
+                        <Button title="Close" onPress={handleCloseAllMealsModal} />
+                    </View>
+                </Modal>
                 <FlatList
                     data={mealsList}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'white', padding: 10, marginVertical: 5, marginHorizontal: 10, borderRadius: 5 }}>
                             <Text>{getMealDetails(item)}</Text>
-                            <TouchableOpacity onPress={() => handleRemoveMeal(index)}>
-                                <Text style={{ color: 'red' }}>X</Text>
-                            </TouchableOpacity>
+                            <View styl={{ marginLeft: 7 }}>
+                                <Button title="X" onPress={() => handleRemoveItem(index)} color="maroon" />
+                            </View>
                         </View>
                     )}
                 />
@@ -93,5 +137,29 @@ const MealScreen = ({ navigation }) => {
         </ImageBackground>
     );
 };
+
+const styles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    modalItem: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+    },
+    addButton: {
+        backgroundColor: 'teal',
+        padding: 5,
+        borderRadius: 3,
+    },
+});
 
 export default MealScreen;
