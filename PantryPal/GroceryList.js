@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Button, TextInput, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
 import image from './Images/italy.jpg';
 
-// Implements the grocery list functionality
-
 const GroceryList = ({ navigation }) => {
   const [foodItem, setFoodItem] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -108,6 +106,5 @@ const GroceryList = ({ navigation }) => {
     </ImageBackground>
   );
 };
-
 
 export default GroceryList;

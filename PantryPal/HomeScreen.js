@@ -8,17 +8,22 @@
  */
 
 import React from 'react';
-import { View, Text, Button, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, Button, ImageBackground, StyleSheet, Image } from 'react-native';
+import image1 from './Images/italy.jpg';
+import image2 from './Images/pantrypal.jpg';
 
 // This is the HomeScreen
 const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
-      source={require('./Images/italy.jpg')}
+      source={image1}
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
       <View style={styles.container}>
-        <Text style={styles.title}> Pantry Pal </Text>
+        <Image
+          source={image2}
+          style={{ width: 350, height: 200, resizeMode: 'contain' }}
+        />
         <View style={styles.button}>
           <Button
             title="Grocery List"
@@ -33,6 +38,13 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Pantry')}
           />
         </View>
+        <View style={styles.button}>
+          <Button
+            title="Meal Plans"
+            color="brown"
+            onPress={() => navigation.navigate('Meal Plans')}
+          />
+        </View>
       </View>
     </ImageBackground>
   );
@@ -44,20 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative', // Add this to allow absolute positioning
-  },
-  title: {
-    fontSize: 50,
-    position: 'absolute', // Position the title at the top
-    marginTop: 150,
-    top: 20, // Adjust as needed for vertical positioning
-    fontFamily: 'Trebuchet MS', // Change to your desired font
-    color: 'teal', // Change to your desired color
-    fontWeight: 'bold',
-    borderWidth: 5, // Add a border
-    borderColor: 'powderblue', // Border color
-    borderRadius: 10, // Border radius
-    padding: 10, // Padding inside the border
-    backgroundColor: 'powderblue',
   },
   button: {
     marginBottom: 15,
