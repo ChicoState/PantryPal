@@ -1,6 +1,9 @@
 # LICENSE REFERENCES
 According to the terms of the licenses, the following references must be included in the project:
 
+## Appium
+- [Appium-License](/Documentation/Licenses/Appium-License.md)
+
 ## NodeJS
 - [NodeJS-License](/Documentation/Licenses/NodeJS-License.md)
 

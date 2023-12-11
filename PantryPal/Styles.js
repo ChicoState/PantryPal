@@ -11,6 +11,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "relative", // Add this to allow absolute positioning'
+    backgroundColor: "powderblue",
+    marginTop: 150,
+    marginBottom: 150,
+    borderColor: "black",
+    borderRadius: 25, // Rounded border
+    borderWidth: 5, // 5 point border width
+    padding: 20,
+    
   },
   addText: {
     fontSize: 20,
@@ -24,12 +32,17 @@ const styles = StyleSheet.create({
     color: "black", // Change to your desired color
     fontWeight: "bold",
   },
+  addText3: {
+    fontSize: 32,
+    fontFamily: "Trebuchet MS", // Change to your desired font
+    color: "black", // Change to your desired color
+    fontWeight: "bold",
+  },
   addTextContainer: {
     flexDirection: "row", // Arrange items in a row horizontally
     justifyContent: "space-between", // Space between the buttons
-    marginTop: 10, // Add space between the item details and buttons
-    marginBottom: 10,
-    backgroundColor: "white",
+    marginTop: 5, // Add space between the item details and buttons
+    marginBottom: 5,
   },
   buttonContainer: {
     flexDirection: 'row', // Arrange items in a row horizontally
@@ -41,6 +54,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Space between the buttons
     marginTop: 10, // Add space between the item details and buttons
     marginBottom: 10,
+  },
+  buttonContainer3: {
+    flexDirection: 'row', // Arrange items in a row horizontally
+    justifyContent: 'center', // Space between the buttons
+    marginTop: 50, // Add space between the item details and buttons
   },
   buttonText: {
     color: 'white',
@@ -148,8 +166,8 @@ const styles = StyleSheet.create({
     height: 40,
     width: 200,
     padding: 10,
-    marginVertical: 10,
-    marginBottom: 10,
+    marginVertical: 5,
+    marginBottom: 5,
   },
   textBox2: {
     backgroundColor: 'white',

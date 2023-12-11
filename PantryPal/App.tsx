@@ -57,8 +57,8 @@ const PantryStackScreen = () => {
       }}
     >
       <PantryStack.Screen name="Your Pantry" component={Pantry} />
-      <PantryStack.Screen name="Add Item" component={AddItem} />
-      <PantryStack.Screen name="Edit Item" component={EditItemComponent} />
+      <PantryStack.Screen name="Add Item" component={AddItem}/>
+      <PantryStack.Screen name="Edit Item" component={EditItemComponent}/>
     </PantryStack.Navigator>
   );
 };
@@ -74,8 +74,9 @@ const App = () => {
           component={HomeScreen}
           options={{headerShown: false}} // Hide header for HomeScreen
         />
-        <Stack.Screen 
-          name="Grocery List" component={GroceryList} 
+        <Stack.Screen
+          name="Grocery List"
+          component={GroceryList}
         />
         <Stack.Screen 
           name="Meal Plans" component={MealScreen} 
