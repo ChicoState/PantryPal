@@ -1,9 +1,14 @@
-export const root = true;
-export const extendsConfig = '@react-native';
-export const parser = '@babel/eslint-parser';
-export const parserOptions = {
-  babelOptions: {
-    configFile: "babel.config.js",
+// .eslintrc.js
+module.exports = {
+  parserOptions: {
+    ecmaVersion: 2021, // or the latest ECMAScript version your project supports
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  requireConfigFile: false,
+  plugins: ["complexity"],
+  rules: {
+    "complexity": ["error", 10], // Set the complexity threshold as needed
+  },
 };
