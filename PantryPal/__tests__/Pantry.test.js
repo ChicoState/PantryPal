@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import Pantry from './Pantry';
+import Pantry from '../Pantry';
 
 test('renders Pantry', () => {
   const { getByText, getByTestId } = render(<Pantry />);

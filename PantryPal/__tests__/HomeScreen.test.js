@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import HomeScreen from './HomeScreen';
+import HomeScreen from '../HomeScreen';
 
 test('renders HomeScreen', () => {
   const { getByText, getByTestId } = render(<HomeScreen />);

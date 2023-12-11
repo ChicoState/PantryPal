@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import GroceryList from './GroceryList';
+import GroceryList from '../GroceryList';
 
 test('adds an item to the list', () => {
   const { getByPlaceholderText, getByText } = render(<GroceryList />);
