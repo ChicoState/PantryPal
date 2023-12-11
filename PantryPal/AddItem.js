@@ -68,7 +68,7 @@ const AddItem = ({navigation}) => {
       setName('');
       setDatePurchased(new Date());
       setExpirationDate(new Date());
-      setQuantity(0);
+      setQuantity('');
       setInRefrigerator(false);
       setInFreezer(false);
       setInPantry(false);
@@ -222,7 +222,7 @@ const AddItem = ({navigation}) => {
           color = 'slategray'
           onPress={() => setInPantry(!inPantry)} />
         </View>
-        <View style={styles.buttonContainer2}>
+        <View style={styles.buttonContainer3}>
           <Button color={'green'} title='Add Item' onPress={ async () => {
             if (name.trim() === '') {
               Snackbar.show({

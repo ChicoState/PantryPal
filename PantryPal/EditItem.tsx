@@ -20,6 +20,7 @@ import {
 import Snackbar from 'react-native-snackbar';
 // Import the styles
 import styles from './Styles.js';
+import { Background } from '@react-navigation/elements';
 // Load the background image
 // import image from './Images/pantryimage.jpg';
 
@@ -147,7 +148,7 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <View style={styles.addContainer}>
         <View style={styles.addTextContainer}>
-          <Text style={styles.addText}>Editing {itemName}</Text>
+          <Text style={styles.addText3}>{itemName}</Text>
         </View>
         <TextInput
           keyboardType="numeric"
@@ -221,7 +222,9 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
         <View style={styles.addTextContainer}>
           <Text style={styles.addText}>Pantry: {inPantry ? 'Yes' : 'No'}</Text>
         </View>
+        <Text>  </Text>
         <View style={styles.buttonContainer2}>
+          <Text>  </Text>
           <Button
             title="Refrigerator"
             color="blue"
@@ -239,12 +242,12 @@ const EditItem: React.FC<EditItemProps> = ({navigation, route}) => {
             onPress={() => setInPantry(!inPantry)}
           />
         </View>
-        <View style={styles.buttonContainer2}>
+        <View style={styles.buttonContainer3}>
           <Button
             color={'green'}
             title="Edit Item"
             onPress={async () => {
-              if (quantity === 0) {
+              if (quantity === '0' || quantity === '') {
                 Snackbar.show({
                   text: 'Cannot save item without a quantity!',
                   duration: Snackbar.LENGTH_SHORT,

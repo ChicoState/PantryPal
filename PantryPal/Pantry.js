@@ -36,8 +36,6 @@ const Pantry = ({navigation}) => {
   const [name, setName] = useState('');
   // This is for the state of the delete confirmation modal
   const [isDialogVisible, setIsDialogVisible] = useState(false); 
-  // This is the state for the selected item
-  const [selectedItem, setSelectedItem] = useState(null);
   
   // Screen Functions
   // Toggles the delete confirmation modal
@@ -152,8 +150,14 @@ const Pantry = ({navigation}) => {
                 <Text>          </Text>
                 <Button
                   title="Refresh"
-                  color = 'teal'
-                  onPress={() => fetchData()}
+                  color='teal'
+                  onPress={() => {
+                    fetchData();
+                    Snackbar.show({
+                      text: 'Pantry refreshed',
+                      duration: Snackbar.LENGTH_SHORT,
+                    });
+                  }}
                 />
               </View>
             </View>
