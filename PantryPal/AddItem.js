@@ -19,7 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {
   addItem,
   addItemError
-} from './Storage.ts';
+} from './PantryStorage.ts';
 // This is the snackbar
 import Snackbar from 'react-native-snackbar';
 // Import the styles
@@ -31,7 +31,7 @@ import image from './Images/pantryimage.jpg';
 const AddItem = ({navigation}) => {
   // These are the states for the input fields
   const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState('');
   const [datePurchased, setDatePurchased] = useState(new Date());
   const [expirationDate, setExpirationDate] = useState(new Date());
   const [inRefrigerator, setInRefrigerator] = useState(false);

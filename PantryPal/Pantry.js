@@ -22,8 +22,7 @@ import Snackbar from "react-native-snackbar";
 import {
   loadPantryData,
   deleteItem,
-  editItem,
-} from './Storage.ts';
+} from './PantryStorage.ts';
 // Import the styles
 import styles from './Styles.js';
 // Load the background image
@@ -31,24 +30,14 @@ import image from './Images/pantryimage.jpg';
 
 // This is the pantry screen
 const Pantry = ({navigation}) => {
-  // This is the state for the pantry data
+  // This is the state for the pantry data from the firebase
   const [pantryData, setPantryData] = useState({});
   // These are the states for the input fields for editing
   const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [datePurchased, setDatePurchased] = useState(new Date());
-  const [expirationDate, setExpirationDate] = useState(new Date());
-  const [inRefrigerator, setInRefrigerator] = useState(false);
-  const [inFreezer, setInFreezer] = useState(false);
-  const [inPantry, setInPantry] = useState(false);
-  const[errorMessage, setErrorMessage] = useState('');
-  const[showDatePicker, setShowDatePicker] = useState(false);
   // This is for the state of the delete confirmation modal
   const [isDialogVisible, setIsDialogVisible] = useState(false); 
   // This is the state for the selected item
   const [selectedItem, setSelectedItem] = useState(null);
-  // This is the state for the refreshing
-  const [refreshing, setRefreshing] = useState(false);
   
   // Screen Functions
   // Toggles the delete confirmation modal
@@ -62,32 +51,29 @@ const Pantry = ({navigation}) => {
     setPantryData(pantryData);
   };
 
-  // This is to pull down to refresh the pantry data
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetchData();
-    setRefreshing(false);
-  }, []);
-
   // This loads the pantry data from The firebase
   useEffect(() => {
     fetchData();
   }, [pantryData.key, pantryData.itemData]);
 
   // This is the render method for the individual pantry items
-  // TODO: Change the button colors inside the modal for delete
   const renderItem = ({ item }) => (
+    // This is the container for the item
     <View style={styles.itemContainer}>
+      {/* This is the text container for the item name and quantity */}
       <View style={styles.textContainer}>
         <Text style={styles.text2}>{item.key}</Text>
         <Text style={styles.text3}>     Quantity: {item.itemData.quantity}</Text>
       </View>
+      {/* This is the text container for the date purchased */}
       <View style={styles.textContainer}>
         <Text style={styles.text3}>Date Purchased: {item.itemData.datePurchased.toDateString()}</Text>
       </View>
+      {/* This is the text container for the expiration date */}
       <View style={styles.textContainer}>
         <Text style={styles.text3}>Expiration Date: {item.itemData.expiration.toDateString()}</Text>
       </View>
+      {/* This is the text container for the location of the item */}
       <View style={styles.textContainer2}>
         <Text style={styles.text3}>Location of {item.key}</Text>
       </View>
@@ -113,7 +99,8 @@ const Pantry = ({navigation}) => {
           title="Delete Item"
           color = 'darkred'
           onPress={() => {
-            setSelectedItem(item); // Set the selected item
+            setName(item.key); // Set the name of the item
+            // setSelectedItem(item); // Set the selected item
             toggleDialog();
           }}
         />
@@ -128,6 +115,7 @@ const Pantry = ({navigation}) => {
       style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {/* If the pantry is empty, let the user know and let them add items */}
         {pantryData.length === 0 ? (
           <>
             <View style={styles.itemContainer}>
@@ -136,7 +124,9 @@ const Pantry = ({navigation}) => {
             </View>
             <Button title="Add Item" onPress={() => navigation.navigate("Add Item")} />
           </>
-        ) : (
+        ) :
+        // If the pantry is not empty, show the pantry items 
+        (
           <>
             <View style={styles.headerContainer}>
               <Text style={styles.text}>Your Pantry</Text>
@@ -148,6 +138,12 @@ const Pantry = ({navigation}) => {
                 keyExtractor={(item) => item.key}
               />
               <View style={styles.buttonContainer2}>
+              <Button
+                  title="Home"
+                  color = 'grey'
+                  onPress={() => navigation.navigate("Home Screen")}
+                />
+                <Text>          </Text>
                 <Button 
                   title="Add Item"
                   color = 'green'
@@ -169,6 +165,7 @@ const Pantry = ({navigation}) => {
         transparent={true}
         visible={isDialogVisible}
       >
+        {/* This is the delete item modal */}
         <View style={styles.modalContainer}>
           <Text style = {styles.confirmationText}>Are you sure you want to delete the item from your pantry?</Text>
           <View style={styles.buttonContainer}>
@@ -182,11 +179,11 @@ const Pantry = ({navigation}) => {
               title="Yes"
               color = 'green'
               onPress= { async () => {
-                if (item) {
-                  await deleteItem(selectedItem.key);
+                if (name) {
+                  await deleteItem(name);
                   fetchData(); // Refresh pantry data
-                  toggleDialog();
-                  Snackbar.show({
+                  toggleDialog(); // Close the modal
+                  Snackbar.show({ // Show a snackbar
                     text: "Item deleted!",
                     duration: Snackbar.LENGTH_SHORT,
                   });
